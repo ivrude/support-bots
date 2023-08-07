@@ -1,0 +1,10 @@
+# Exclude __init__.py and settings.py
+__init__.py
+settings.py
+
+# Exclude __pycache__ directory
+__pycache__/
+
+# Exclude virtual environment
+venv/
+.idea
