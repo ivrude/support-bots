@@ -88,20 +88,20 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'themes',  # Имя вашей базы данных
-        'USER': 'admin',  # Имя пользователя базы данных (Initial Super User)
-        'PASSWORD': 'CtUfEulL',  # Пароль базы данных (Initial Password)
-        'HOST': 'mysql-138752-0.cloudclusters.net',  # Host базы данных
-        'PORT': '19653',  # Порт базы данных
+        'NAME': 'themes', 
+        'USER': 'admin',  
+        'PASSWORD': 'CtUfEulL',  
+        'HOST': 'mysql-138752-0.cloudclusters.net', 
+        'PORT': '19653', 
     }
 }
-# Встановіть URL брокера Redis для Celery
+
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
-# Встановіть URL бекенда для результатів виконання завдань
+
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
-# Налаштування для Django кешування, якщо потрібно
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
