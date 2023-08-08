@@ -3,13 +3,13 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-# Модель теми (theme)
+
 class Theme(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
 
-# Модель заходу (event)
+
 class Event(models.Model):
     theme_id = models.ForeignKey(Theme, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -19,7 +19,7 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-# Модель клієнта (client)
+
 class Client(models.Model):
     user_id = models.IntegerField(unique=True)
     phone_number = models.CharField(max_length=20)
@@ -27,7 +27,7 @@ class Client(models.Model):
     def __str__(self):
         return str(self.user_id)
 
-# Модель відповіді на захід (response)
+
 class Responce(models.Model):
     RESPONSE_CHOICES = (
         ('yes', 'Записатись'),
