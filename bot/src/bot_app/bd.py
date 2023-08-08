@@ -108,11 +108,11 @@ async def my_events(message: types.Message):
     # Отримання поточного часу
     current_time = datetime.now()
 
-    # Отримання часу через 24 години
+
     next_day_time = current_time + timedelta(hours=24)
 
     # Отримання івентів, на які користувач підписаний, і до яких залишилося менше ніж 24 години
-    query = "SELECT DISTINCT e.title, e.date_time FROM meets_event e INNER JOIN meets_responce r ON e.event_id = r.event_id WHERE r.phone_number = %s AND e.date_time <= DATE_ADD(NOW(), INTERVAL 1 DAY) AND e.date_time >= %s AND e.date_time <= %s"
+    query = "SELECT DISTINCT e.title, e.date_time FROM meets_event e INNER JOIN meets_responce r ON e.event_id = r.event_id WHERE r.phone_number = %s AND r.response = 'yes' AND e.date_time <= DATE_ADD(NOW(), INTERVAL 27 HOUR) AND e.date_time >= %s AND e.date_time <= %s"
     cursor.execute(query, (phone_number, current_time, next_day_time))
     data = cursor.fetchall()
     connection.close()
@@ -257,10 +257,10 @@ async def handle_my_events(message: types.Message):
 
     await message.answer(response_message)
 
-@dp.message_handler(commands=['register'])
+@dp.message_handler(commands=['start'])
 async def handle_register(message: types.Message,):
     button = types.KeyboardButton("Зареєструватись", request_contact=True)
-    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
     keyboard.add(button)
 
     await message.answer("Будь ласка, надішліть свій номер телефону:", reply_markup=keyboard)
@@ -268,13 +268,15 @@ async def handle_register(message: types.Message,):
 @dp.message_handler(content_types=types.ContentType.CONTACT)
 async def handle_contact(message: types.Message):
     phone_number = message.contact.phone_number
-    user_id = message.from_user.id
-
-    if not is_phone_number_registered(phone_number):
+    user_id = message.contact.user_id
+    if user_id != message.from_user.id:
+        await message.answer("Ви намагаєтеся зареєструвати інший номер телефону.")
+        return
+    elif not is_phone_number_registered(phone_number):
         add_phone_number_to_database(user_id, phone_number)
-        await message.answer("Ваш номер телефону був успішно зареєстрований в базі даних.")
+        await message.answer("Ваш номер телефону був успішно зареєстрований в базі даних. Щоб подивитись усі команди натисність /help",reply_markup=types.ReplyKeyboardRemove())
     else:
-        await message.answer("Ваш номер телефону вже зареєстрований в базі даних.")
+        await message.answer("Ваш номер телефону вже зареєстрований в базі даних. Щоб подивитись усі команди натисніть /help",reply_markup=types.ReplyKeyboardRemove())
 
 # Handler for the /start command
 @dp.message_handler(commands=['theme'])
@@ -303,15 +305,15 @@ async def handle_start(message: types.Message):
     await message.reply("Оберіть тему:", reply_markup=keyboard)
 
 
-@dp.message_handler(commands=['start'])
+@dp.message_handler(commands=['help'])
 async def start_command(message: types.Message):
 
     # List of available commands
     commands_list = (
-        "/start - Get a  list of commands\n"
+        "/help - Get a  list of commands\n"
         "/time - Get a list of your upcoming events within the next 24 hours\n"
         "/my_events - Get a list of event you are going to come\n"
-        "/register - Registration\n"
+        "/start - Registration\n"
         "/theme - get a list of all themes\n"
     )
 
@@ -351,9 +353,7 @@ async def callback_handler(callback_query: types.CallbackQuery):
         await bot.send_message(user_id, "Недійсні дані.")
 
 
-@crontab('0 10 * * *')
-def schedule_send_upcoming_event_notifications():
-    send_upcoming_event_notifications.delay()
+
 # Start the bot
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
