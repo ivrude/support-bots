@@ -1,4 +1,3 @@
-
 from .models import *
 from .serialize import ThemeSerializer
 from rest_framework import serializers
@@ -12,7 +11,7 @@ class ThemeSerializer(serializers.ModelSerializer):
         model = Theme
         fields = '__all__'
 class EventSerializer(serializers.ModelSerializer):
-    theme = ThemeSerializer()  # Використання ThemeSerializer для поля theme
+    theme = ThemeSerializer()  # Using serializer for theme
 
     class Meta:
         model = Event
