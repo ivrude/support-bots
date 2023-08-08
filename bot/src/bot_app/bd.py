@@ -13,7 +13,7 @@ DATABASE_HOST = 'mysql-138752-0.cloudclusters.net'
 DATABASE_USER = 'admin'
 DATABASE_PASSWORD = 'CtUfEulL'
 DATABASE_NAME = 'themes'
-DATABASE_PORT = 19653  # Замініть це значення на ваш змінений порт
+DATABASE_PORT = 19653  # Change on your port
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
@@ -93,9 +93,9 @@ def save_response_to_database(phone_number, response, event_id):
 @dp.message_handler(commands=["time"])
 async def my_events(message: types.Message):
     user_id = message.from_user.id
-    phone_number = get_phone_number_from_database(user_id)  # Замініть це на змінну з номером телефону користувача
+    phone_number = get_phone_number_from_database(user_id)  
 
-    # Підключення до бази даних
+    # Conection to bd
     connection = pymysql.connect(
         host=DATABASE_HOST,
         user=DATABASE_USER,
@@ -105,13 +105,13 @@ async def my_events(message: types.Message):
     )
     cursor = connection.cursor()
 
-    # Отримання поточного часу
+    
     current_time = datetime.now()
 
-    # Отримання часу через 24 години
+    # time 24 hours after current
     next_day_time = current_time + timedelta(hours=24)
 
-    # Отримання івентів, на які користувач підписаний, і до яких залишилося менше ніж 24 години
+   
     query = "SELECT DISTINCT e.title, e.date_time FROM meets_event e INNER JOIN meets_responce r ON e.event_id = r.event_id WHERE r.phone_number = %s AND e.date_time <= DATE_ADD(NOW(), INTERVAL 1 DAY) AND e.date_time >= %s AND e.date_time <= %s"
     cursor.execute(query, (phone_number, current_time, next_day_time))
     data = cursor.fetchall()
@@ -130,7 +130,7 @@ async def handle_response(user_id, response, event_id):
 
 
 
-    # Надсилання відповіді користувачеві
+    # Send responce
     response_message = ""
     phone_number = get_phone_number_from_database(user_id)
 
@@ -276,7 +276,7 @@ async def handle_contact(message: types.Message):
     else:
         await message.answer("Ваш номер телефону вже зареєстрований в базі даних.")
 
-# Handler for the /start command
+
 @dp.message_handler(commands=['theme'])
 async def handle_start(message: types.Message):
     # Your database query to get themes
@@ -315,7 +315,7 @@ async def start_command(message: types.Message):
         "/theme - get a list of all themes\n"
     )
 
-    # Send the greeting and command list
+    # Send the command list
     await message.answer("Here are the available commands:\n" + commands_list)
 
 # Handler for the button callbacks
@@ -334,8 +334,8 @@ async def callback_handler(callback_query: types.CallbackQuery):
             keyboard = types.InlineKeyboardMarkup(row_width=3)
             event_id = event_ids[i]
             button1 = types.InlineKeyboardButton("Записатись", callback_data=f"yes_{event_id}")  # Use event_id in callback data
-            button2 = types.InlineKeyboardButton("Можливо буду", callback_data=f"maybe_{event_id}")  # Use event_id in callback data
-            button3 = types.InlineKeyboardButton("Не прийду", callback_data=f"no_{event_id}")  # Use event_id in callback data
+            button2 = types.InlineKeyboardButton("Можливо буду", callback_data=f"maybe_{event_id}")  
+            button3 = types.InlineKeyboardButton("Не прийду", callback_data=f"no_{event_id}")  
             keyboard.add(button1, button2, button3)
 
             await bot.send_message(user_id, event, reply_markup=keyboard)
