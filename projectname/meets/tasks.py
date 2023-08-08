@@ -27,7 +27,7 @@ def get_user_ids_from_meets_client():
 
     connection.close()
     return user_ids
-# Create a Celery instance
+
 def get_phone_number_from_database(user_id):
     # Retrieve the user's phone number from the 'meets_client' table
     connection = pymysql.connect(
@@ -50,8 +50,8 @@ def get_phone_number_from_database(user_id):
         return None
 
 def send_telegram_notification(user_id, message):
-    # Отправить уведомление пользователю через API Telegram
-    bot_token = '6542659135:AAEsVEDtZZwwazKRnTebiS3kVDr5CzTlumk'  # Замените на ваш токен бота
+    # Send mmessage by API
+    bot_token = '6542659135:AAEsVEDtZZwwazKRnTebiS3kVDr5CzTlumk'  
     url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
     data = {'chat_id': user_id, 'text': message}
     response = requests.post(url, json=data)
@@ -60,7 +60,6 @@ def send_telegram_notification(user_id, message):
 def send_event_notifications():
     user_ids = get_user_ids_from_meets_client()
 
-    # Получить текущее время и время через 24 часа
     current_time = datetime.now()
     next_day_time = current_time + timedelta(hours=24)
 
@@ -87,6 +86,6 @@ def send_event_notifications():
             else:
                 response_message = "You have no upcoming events in the next 24 hours."
 
-            # Отправить уведомление пользователю через API Telegram
+            # Sending message using API
             send_telegram_notification(user_id, response_message)
     return "Event notifications sent successfully."
