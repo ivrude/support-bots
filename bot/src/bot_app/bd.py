@@ -350,10 +350,6 @@ async def callback_handler(callback_query: types.CallbackQuery):
         # Invalid data
         await bot.send_message(user_id, "Недійсні дані.")
 
-
-@crontab('0 10 * * *')
-def schedule_send_upcoming_event_notifications():
-    send_upcoming_event_notifications.delay()
 # Start the bot
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
