@@ -1,0 +1,108 @@
+# English translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-08-23 23:35+0300\n"
+"PO-Revision-Date: 2023-08-23 23:35+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: main.py:39
+msgid "Choosen language eanglish"
+msgstr ""
+
+#: main.py:48
+msgid "Phone number"
+msgstr ""
+
+#: main.py:57
+msgid "Email"
+msgstr ""
+
+#: main.py:66
+msgid "Back"
+msgstr ""
+
+msgid "Choose how to auth"
+msgstr ""
+
+msgid "You sucsesful autorised"
+msgstr ""
+
+msgid "Choose menu punkt"
+msgstr ""
+
+msgid "Menu"
+msgstr ""
+
+msgid "News"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Offers"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Choose above"
+msgstr ""
+
+msgid "Get Notifications"
+msgstr ""
+
+msgid "Dont get Notifications"
+msgstr ""
+
+msgid "Wish"
+msgstr ""
+
+msgid "Complaint"
+msgstr ""
+
+msgid "Choose type of offer"
+msgstr ""
+
+msgid "Write your wish please"
+msgstr ""
+
+msgid "Thank you for your wishes"
+msgstr ""
+
+msgid "This is list of our news"
+msgstr ""
+
+msgid "Topik"
+msgstr ""
+
+msgid "Write your complaint please"
+msgstr ""
+
+msgid "Thank you for your complaint"
+msgstr ""
+
+msgid "You are trying to use not your number"
+msgstr ""
+
