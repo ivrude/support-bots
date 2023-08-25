@@ -1,0 +1,108 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-08-23 23:35+0300\n"
+"PO-Revision-Date: 2023-08-23 23:35+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: main.py:39
+msgid "Choosen language eanglish"
+msgstr "Вибрана мова українська"
+
+#: main.py:48
+msgid "Phone number"
+msgstr "Номер телефону"
+
+#: main.py:57
+msgid "Email"
+msgstr "Імейл"
+
+#: main.py:66
+msgid "Back"
+msgstr "Назад"
+
+msgid "Choose how to auth"
+msgstr "Виберіть як зареєструватись"
+
+msgid "You sucsesful autorised"
+msgstr "Ви успішно авторизувались"
+
+msgid "Choose menu punkt"
+msgstr "Вибрати пункт меню"
+
+msgid "Menu"
+msgstr "Меню"
+
+msgid "News"
+msgstr "Новини"
+
+msgid "Settings"
+msgstr "Налаштування"
+
+msgid "Offers"
+msgstr "Пропозиції"
+
+msgid "Help"
+msgstr "Допомога"
+
+msgid "Support"
+msgstr "Техпідтримка"
+
+msgid "Profile"
+msgstr "Профіль"
+
+msgid "Notifications"
+msgstr "Сповіщення"
+
+msgid "Choose above"
+msgstr "Оберіть нижче"
+
+msgid "Get Notifications"
+msgstr "Отримувати сповіщення"
+
+msgid "Dont get Notifications"
+msgstr "Не отримувати сповіщення"
+
+msgid "Wish"
+msgstr "Побажання"
+
+msgid "Complaint"
+msgstr "Скарга"
+
+msgid "Choose type of offer"
+msgstr "Виберіть тип звернення"
+
+msgid "Write your wish please"
+msgstr "Напишіть нам ваше побажання"
+
+msgid "Thank you for your wishes"
+msgstr "Дякую за ваші побажання"
+
+msgid "This is list of our news"
+msgstr "Це список наших новин"
+
+msgid "Topik"
+msgstr "Новина"
+
+msgid "Write your complaint please"
+msgstr "Розпишіть вашу скаргу будь ласка"
+
+msgid "Thank you for your complaint"
+msgstr "Дякуємо за вашу скаргу, ми обов'язково її розглянемо"
+
+msgid "You are trying to use not your number"
+msgstr "Ви намагаєтесь ввести не ваш номер"

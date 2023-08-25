@@ -1,0 +1,12 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Hello, World!"
+msgstr ""
+
+msgid "Choose how to auth"
+msgstr ""
+
+msgid "Phone number"
+msgstr ""
