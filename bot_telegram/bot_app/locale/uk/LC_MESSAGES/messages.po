@@ -103,6 +103,3 @@ msgstr "Розпишіть вашу скаргу будь ласка"
 
 msgid "Thank you for your complaint"
 msgstr "Дякуємо за вашу скаргу, ми обов'язково її розглянемо"
-
-msgid "You are trying to use not your number"
-msgstr "Ви намагаєтесь ввести не ваш номер"

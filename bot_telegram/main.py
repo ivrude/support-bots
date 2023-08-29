@@ -1,13 +1,10 @@
-import i18n
-
-from bot.src.utitlits import WORKDIR
 from bot_app import bot,webhook_path,TOKEN,dp,app
 from aiogram import types
 from aiohttp import web
 
 
 async def set_webhook():
-    webhook_url=f'https://68bb-212-90-45-23.ngrok.io{webhook_path}'
+    webhook_url=f'https://4250-146-120-100-17.ngrok-free.app{webhook_path}'
     print(webhook_url)
     await bot.set_webhook(webhook_url)
 async def on_startup(_):
@@ -31,7 +28,7 @@ async def handle_webhook(request):
 
 
 from aiogram.dispatcher.webhook import get_new_configured_app
-app.router.add_post(f'/{TOKEN}',handle_webhook)
+app.router.add_post(f'/{TOKEN}', handle_webhook)
 if __name__=='__main__':
     app = get_new_configured_app(dispatcher=dp, path=webhook_path)
     app.on_startup.append(on_startup)

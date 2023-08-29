@@ -4,7 +4,7 @@ from aiohttp import web
 
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-TOKEN =("6059087374:AAEg4bLEIJqF-PFkjwfIDeOSbESRrJsvvLs")
+TOKEN =("6688922542:AAGh684fYzwNM1mgYdHz-iIvVYp8apOsLX0")
 bot = Bot(token=TOKEN)
 
 storage = MemoryStorage()

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  bot:
+    build:
+
+      context: .
+      dockerfile: bot_telegram/Dockerfile
+
+    environment:
+      - NGROK_AUTH_TOKEN="2Tq03Z37FJofCr3gWDkHcGQsUqo_33674qqAJYygaK2Ffy95h"
+      - TELEGRAM_BOT_TOKEN="6688922542:AAGh684fYzwNM1mgYdHz-iIvVYp8apOsLX0"
+    ports:
+      - "5000:5000"
+
+    command: ["python", "-m", "main"]

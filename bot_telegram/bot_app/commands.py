@@ -1,11 +1,29 @@
 from aiogram import types
-from aiogram.dispatcher.filters import CommandStart
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher import FSMContext
+import requests
+from .settings.locale import setup_locale_middleware, set_language
 
-from bot.src.bot_app.settings.locale import setup_locale_middleware, set_language
+from .app import  bot, dp
 
-from bot.src.bot_app import  bot, dp
+from email_validator import validate_email, EmailNotValidError
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+# Определение учетных данных
+FROM = 'rybnyjmedved@gmail.com'
+LOGIN = 'rybnyjmedved@gmail.com'
+PASSWORD = 'mydpvxxlxnzqcyie'
+URL = 'smtp.gmail.com'
+PORT = 587  # Используйте порт 587 для TLS
+
+import random
+def generate_otp():
+    return str(random.randint(1000, 9999))
+otp_store = {}
+lang = {}
+
 
 
 class YourState(StatesGroup):
@@ -18,6 +36,7 @@ class YourState(StatesGroup):
     main = State()
     feedback = State()
     waiting_for_feedback = State()
+    waiting_for_complain = State()
     waiting_for_language = State()
 i18n = setup_locale_middleware(dp)
 _ = i18n.gettext
@@ -59,11 +78,12 @@ async def language(callback_query: types.CallbackQuery):
     await YourState.waiting_for_contact.set()
 @dp.message_handler(lambda message: message.text in ["Назад", "Back"], state="*")
 async def handle_back(message: types.Message, state: FSMContext):
-    await state.finish()
+    await state.finish()  # Скасування поточного стану
     await handle_start(message)
 
 @dp.message_handler(lambda message: message.text in ["Phone number", "Номер телефону"], state=YourState.waiting_for_contact)
 async def handle_phone_authorization(message: types.Message, state: FSMContext):
+    await message.answer("Ви натиснули авторизацію за телефоном. Будь ласка, надішліть свій номер телефону.",)
     await state.update_data(prev_state=state.current_state)
     await YourState.waiting_for_contact.set()
 
@@ -76,11 +96,33 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
     keyboard.add(_("Back"))
     user_id = message.from_user.id
     if user_id != message.contact.user_id:
-        await message.answer(_("You are trying to use not your number"),reply_markup=keyboard)
+        await message.answer(language_phrases[selected_language]['no_phone_auth'],reply_markup=keyboard)
         return
     else:
+        contact = message.contact
+
+        url = 'http://localhost:8000/api/check_number'
+        headers = {
+            'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+            'Accept': 'application/json'
+        }
+        params = {'number': contact.phone_number}
+
+        response = requests.get(url, headers=headers, params=params)
+
+        result = response.json()
+        print(result)
+        rez = result['result']
+        print(rez, )
+        if not rez:
+            await message.answer("Цього номера немає у базі.Переконайтесь , що ви входите з потрібного акаунту")
+            return
+
+
+
         await message.answer(_("You sucsesful autorised"), reply_markup=types.ReplyKeyboardRemove())
         print(selected_language)
+
         buttons = [
             types.KeyboardButton(text=_("Menu")),
         ]
@@ -93,37 +135,105 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
 
 
 
-@dp.message_handler(lambda message: message.text == "Авторизуватись за почтою", state=YourState.waiting_for_contact)
+@dp.message_handler(lambda message: message.text in ["Email","Імейл"], state=YourState.waiting_for_contact)
 async def handle_email_choice(message: types.Message, state: FSMContext):
-    user_data = await state.get_data()
-    selected_language = user_data['user_data']['selected_language']
     await YourState.waiting_for_email.set()
-    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(language_phrases[selected_language]['back']))
-    await message.answer("Ви вибрали авторизацію за почтою. Будь ласка, введіть свій емейл.", reply_markup=keyboard)
+    await message.answer("Ви вибрали авторизацію за почтою. Будь ласка, введіть свій емейл.")
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_email)
 async def handle_contact_email(message: types.Message, state: FSMContext):
     email = message.text
-    # Ваша логіка для збереження емейлу тут
-    await YourState.waiting_for_code.set()
-    await message.answer("Вам був надісланий код підтвердження на вашу адресу електронної пошти. Будь ласка, введіть його.")
+    try:
+        valid = validate_email(email)
+        print("Email is valid")
+    except EmailNotValidError as e:
+        print(f"Email is not valid: {e}")
+        await YourState.waiting_for_email.set()
+        await message.answer("Електронну адресу введено неправильно.Повторыть спробу")
+        return
+    headers = {
+        'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+        'Accept': 'application/json'
+    }
+    params = {
+        'email': email
+    }
+
+    url = f"http://localhost:8000/api/check_email"
+
+    response = requests.get(url, headers=headers, params=params)
+
+    result = response.json()
+    print(result)
+    if 'result' in result:
+        rez = result['result']
+        print(rez)
+    else:
+        rez='False'
+
+    print(rez, email, not rez)
+    if rez=='False':
+        await YourState.waiting_for_email.set()
+        await  message.answer("Цієї пошти немає у базі.Переконайтесь , що ви входите з потрібного акаунту")
+    else:
+
+
+
+
+        # Ваша логіка для збереження емейлу тут
+
+        msg = MIMEMultipart()
+        msg['From'] = FROM
+        msg['To'] = email
+        msg['Subject'] = 'Test Email'
+        otp = generate_otp()
+        otp_store[message.from_user.id] = otp
+
+        body = f'Ваш код підтверддження {otp}'
+        msg.attach(MIMEText(body, 'plain'))
+
+
+        try:
+            with smtplib.SMTP(URL, PORT) as connection:
+                connection.starttls()
+                connection.login(user=LOGIN, password=PASSWORD)
+                connection.sendmail(from_addr=FROM, to_addrs=msg['To'], msg=msg.as_string())
+            print('Email sent successfully!')
+
+
+
+
+
+        except Exception as e:
+            print('An error occurred:', e)
+            await YourState.waiting_for_email.set()
+            await message.answer("Помилка відправлення.Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново")
+            return
+
+
+        await YourState.waiting_for_code.set()
+        await message.answer("Вам був надісланий код підтвердження на вашу адресу електронної пошти. Будь ласка, введіть його.")
 
 @dp.message_handler(lambda message: message.text.isdigit(), state=YourState.waiting_for_code)
 async def handle_code(message: types.Message, state: FSMContext):
-    code = message.text
-    # Ваша логіка для перевірки коду тут
-    await state.finish()
-    await message.answer("Авторизація завершена. Ви успішно увійшли за допомогою електронної пошти.",)
+    code = int(message.text)
+    code_check = int(otp_store[message.from_user.id])
+    if code_check != code:
+        await YourState.waiting_for_email.set()
+        await message.answer(
+            "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново")
+        return
+
     user_data = await state.get_data()
     selected_language = user_data['user_data']['selected_language']
-
+    await set_language(selected_language)
     buttons = [
-        types.KeyboardButton(text=language_phrases[selected_language]['button']),
+        types.KeyboardButton(text=_("Menu")),
     ]
+
     keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.answer(language_phrases[selected_language]['menu'], reply_markup=keyboard)
+    await message.answer(_("Choose above"), reply_markup=keyboard)
     await YourState.main.set()
 
 
@@ -183,7 +293,14 @@ async def handle_news(message: types.Message, state: FSMContext):
     await set_language(selected_language)
     await message.answer(_("This is list of our news"))
 
-    data = ['1', '5', '2', '3']
+    headers = {
+        'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+        'Accept': 'application/json'
+    }
+
+    url = f"http://localhost:8000/api/view_all_news"
+    response = requests.get(url, headers=headers)
+    data = response.json()
     i = 0
     kb = types.InlineKeyboardMarkup(row_width=3)
     kb.add(
@@ -208,7 +325,14 @@ async def process_prev_button(callback_query: types.CallbackQuery, state: FSMCon
     user_data = await state.get_data()
     selected_language = user_data['user_data']['selected_language']
     await set_language(selected_language)
-    data = ['1', '5', '2', '3']
+    headers = {
+        'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+        'Accept': 'application/json'
+    }
+
+    url = f"http://localhost:8000/api/view_all_news"
+    response = requests.get(url, headers=headers)
+    data = response.json()
     dataS = callback_query.data.split('_')
     i = int(dataS[1]) - 1
 
@@ -229,7 +353,15 @@ async def process_next_button(callback_query: types.CallbackQuery, state: FSMCon
     user_data = await state.get_data()
     selected_language = user_data['user_data']['selected_language']
     await set_language(selected_language)
-    data = ['1', '5', '2', '3']
+    headers = {
+        'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+        'Accept': 'application/json'
+    }
+
+    url = f"http://localhost:8000/api/view_all_news"
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
     dataS = callback_query.data.split('_')
     i = int(dataS[1]) + 1
     if i > len(data) - 1:
@@ -274,7 +406,23 @@ async def handle_wish(message: types.Message, state: FSMContext):
     button1 = types.KeyboardButton(_("Menu"), )
     keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
     keyboard.add(button1)
-    await message.answer(_("Thank you for your wishes"),reply_markup=keyboard)
+    headers = {
+        'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+        'Accept': 'application/json'
+    }
+    params = {
+        'name': message.text
+    }
+
+    url = f"http://localhost:8000/api/set_threads"
+
+    response = requests.get(url, params=params, headers=headers)
+    print(response.status_code)
+    print(response.text)
+
+
+
+    await message.answer(_("Thank you"),reply_markup=keyboard)
     await YourState.main.set()
 
 @dp.message_handler(lambda message: message.text in ["Скарга", "Complaint"],state=YourState.feedback)
@@ -283,8 +431,9 @@ async def handle_notifications_eng(message: types.Message,state: FSMContext):
     selected_language = user_data['user_data']['selected_language']
     await set_language(selected_language)
     await message.answer(_("Write your complaint please"),reply_markup=types.ReplyKeyboardRemove())
-    await YourState.waiting_for_feedback.set()
-@dp.message_handler(lambda message: message.text, state=YourState.waiting_for_feedback)
+    await YourState.waiting_for_complain.set()
+
+@dp.message_handler(lambda message: message.text, state=YourState.waiting_for_complain)
 async def handle_contact_email(message: types.Message, state: FSMContext):
     user_data = await state.get_data()
     selected_language = user_data['user_data']['selected_language']
@@ -292,6 +441,19 @@ async def handle_contact_email(message: types.Message, state: FSMContext):
     button1 = types.KeyboardButton(_("Menu"), )
     keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
     keyboard.add(button1)
+    headers = {
+        'Authorization': 'Bearer 31df9f1f-af50-46ff-859f-a7cab5590746',
+        'Accept': 'application/json'
+    }
+    params = {
+        'name': message.text
+    }
+
+    url = f"http://localhost:8000/api/set_threads"
+
+    response = requests.get(url, params=params, headers=headers)
+    print(response.status_code)
+    print(response.text)
     await message.answer(_("Thank you for your complaint"), reply_markup=keyboard)
     await YourState.main.set()
 

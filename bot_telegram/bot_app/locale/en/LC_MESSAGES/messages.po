@@ -102,7 +102,3 @@ msgstr ""
 
 msgid "Thank you for your complaint"
 msgstr ""
-
-msgid "You are trying to use not your number"
-msgstr ""
-
