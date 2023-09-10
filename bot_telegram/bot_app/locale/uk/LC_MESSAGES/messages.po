@@ -103,3 +103,30 @@ msgstr "Розпишіть вашу скаргу будь ласка"
 
 msgid "Thank you for your complaint"
 msgstr "Дякуємо за вашу скаргу, ми обов'язково її розглянемо"
+
+msgid "You are trying to use not your number"
+msgstr "Ви намагаєтесь ввести не ваш номер"
+
+msgid "Language"
+msgstr "Мова"
+
+msgid "This number is not sign on our product"
+msgstr "Цього номера немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+
+msgid "Please enter your email"
+msgstr "Будь ласка введіть свій емейл"
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr "Цієї пошти немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr "Електронну адресу введено неправильно.Повторіть спробу"
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Помилка відправлення.Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr "Вам був надісланий код підтвердження на вашу адресу електронної пошти. Будь ласка, введіть його."
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
