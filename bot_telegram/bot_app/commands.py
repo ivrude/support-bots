@@ -83,9 +83,6 @@ async def handle_start(message: types.Message):
     await message.answer("Сhoose language:", reply_markup=keyboard)
 
 
-# Get the user's language preference (replace this with your logic)
-
-
 @dp.callback_query_handler(lambda query: query.data.startswith("lang_"))
 async def language(callback_query: types.CallbackQuery):
     dataS = callback_query.data.split("_")
@@ -414,7 +411,6 @@ async def handle_news(message: types.Message, state: FSMContext):
         types.InlineKeyboardButton(">>", callback_data=f"next_{i}"),
     )
 
-    # Отримайте id повідомлення та чату, щоб пізніше оновити повідомлення
     chat_id = message.chat.id
     msg_id = message.message_id
 
