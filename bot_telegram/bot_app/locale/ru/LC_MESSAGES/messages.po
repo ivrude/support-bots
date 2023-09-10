@@ -1,0 +1,132 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-08-30 14:19+0300\n"
+"PO-Revision-Date: 2023-08-30 14:19+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: main.py:39
+msgid "Choosen language eanglish"
+msgstr "Выбран руский язык"
+
+#: main.py:48
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: main.py:57
+msgid "Email"
+msgstr "Имэйл"
+
+#: main.py:66
+msgid "Back"
+msgstr "Назад"
+
+msgid "Choose how to auth"
+msgstr "Выберите способ авторизации"
+
+msgid "You sucsesful autorised"
+msgstr "Вы успешно авторизованы"
+
+msgid "Choose menu punkt"
+msgstr "Выберите пункт меню"
+
+msgid "Menu"
+msgstr "Меню"
+
+msgid "News"
+msgstr "Новости"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Offers"
+msgstr "Предложения"
+
+msgid "Help"
+msgstr "Помощь"
+
+msgid "Support"
+msgstr "Поддержка"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "Choose above"
+msgstr "Выберите ниже"
+
+msgid "Get Notifications"
+msgstr "Получать уведомления"
+
+msgid "Dont get Notifications"
+msgstr "Не получать уведомления"
+
+msgid "Wish"
+msgstr "Пожелание"
+
+msgid "Complaint"
+msgstr "Жалоба"
+
+msgid "Choose type of offer"
+msgstr "Выберите тип предложения"
+
+msgid "Write your wish please"
+msgstr "Напишите свое пожелание, пожалуйста"
+
+msgid "Thank you for your wishes"
+msgstr "Спасибо за ваши пожелания"
+
+msgid "This is list of our news"
+msgstr "Это список наших новостей"
+
+msgid "Topik"
+msgstr "Топик"
+
+msgid "Write your complaint please"
+msgstr "Напишите жалобу пожалуйста"
+
+msgid "Thank you for your complaint"
+msgstr "Спасибо за вашу жалобу"
+
+msgid "You are trying to use not your number"
+msgstr "Вы пытаетесь использовать не свой номер"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "This number is not sign on our product"
+msgstr "Этот номер не указан на нашем продукте"
+
+msgid "Please enter your email"
+msgstr "Пожалуйста, введите свой адрес электронной почты"
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr "Этой почты нет в базе. Убедитесь, что вы входите с нужного аккаунта"
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr "Адрес электронной почты введен неправильно.Повторите попытку"
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Ошибка отправки.Пожалуйста, убедитесь, что ввели все правильно и введите свой email заново"
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr "Вам был отправлен код подтверждения на ваш адрес электронной почты. Введите его."
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Не верно. Пожалуйста, убедитесь, что ввели все правильно и введите свой email заново"
+
+
+
+
