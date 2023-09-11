@@ -130,3 +130,38 @@ msgstr ""
 msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
 msgstr ""
 
+msgid "Timed out, authenticate again"
+msgstr ""
+
+msgid "Time is up, communication is complete"
+msgstr ""
+
+msgid "Authorization by phone. Please send your phone number."
+msgstr ""
+
+msgid "This number is not in the database. Check the data carefully"
+msgstr ""
+
+msgid "You have selected authorization by mail. Please enter your email."
+msgstr ""
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr ""
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr ""
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr ""
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr ""
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""

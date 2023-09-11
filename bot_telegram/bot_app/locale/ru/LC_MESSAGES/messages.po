@@ -127,6 +127,38 @@ msgstr "Вам был отправлен код подтверждения на 
 msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
 msgstr "Не верно. Пожалуйста, убедитесь, что ввели все правильно и введите свой email заново"
 
+msgid "Timed out, authenticate again"
+msgstr "Время ожидания истекло, авторизуйтесь еще раз"
 
+msgid "Time is up, communication is complete"
+msgstr "Время вышло, коммуникация завершена"
 
+msgid "Authorization by phone. Please send your phone number."
+msgstr "Авторизация по телефону. Пожалуйста, отправьте номер телефона."
 
+msgid "This number is not in the database. Check the data carefully"
+msgstr "Этого номера нет в базе. Проверьте данные внимательно"
+
+msgid "You have selected authorization by mail. Please enter your email."
+msgstr "Вы выбрали авторизацию по почте. Введите свой емейл."
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr "Адрес электронной почты введен неправильно.Повторите попытку"
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr ""
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Ошибка отправки. Пожалуйста, убедитесь, что вы все ввели правильно и введите свой адрес электронной почты еще раз."
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr "Вам был отправлен код подтверждения на ваш адрес электронной почты. Введите его."
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Не верно. Пожалуйста, убедитесь, что ввели все правильно и введите свой email заново"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""

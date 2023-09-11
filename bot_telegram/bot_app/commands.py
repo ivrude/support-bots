@@ -24,7 +24,9 @@ from .settings.locale import (
 
 
 async def reset_code(chat_id, user_id):
-    await asyncio.sleep(60)
+    await asyncio.sleep(
+        180
+    )  # previously said that the login code is temporary to improve security
     stored_data = await storage.get_data(chat=chat_id, user=user_id)
     print(stored_data)
     code_check = int(stored_data["code"])
@@ -32,9 +34,7 @@ async def reset_code(chat_id, user_id):
         data_to_store = {"code": 0}
         await storage.update_data(chat=chat_id, user=user_id, data=data_to_store)
         await YourState.waiting_for_email.set()
-        await bot.send_message(
-            chat_id=chat_id, text="Час вийшов, пройдіть аутентифікацію заново"
-        )
+        await bot.send_message(chat_id=chat_id, text=_("Timed out, authenticate again"))
 
 
 async def thread(chat_id, user_id):
@@ -45,7 +45,7 @@ async def thread(chat_id, user_id):
     if not result:
         await YourState.main.set()
         await bot.send_message(
-            chat_id=chat_id, text="Час вийшов, комунікація завершена"
+            chat_id=chat_id, text=_("Time is up, communication is complete")
         )
         data_to_store = {"thread": None}
         await storage.update_data(chat=chat_id, user=user_id, data=data_to_store)
@@ -123,7 +123,7 @@ async def handle_back(message: types.Message, state: FSMContext):
 )
 async def handle_phone_authorization(message: types.Message):
     await message.answer(
-        "Авторизація за телефоном. Будь ласка, надішліть свій номер телефону.",
+        _("Authorization by phone. Please send your phone number."),
     )
     await YourState.waiting_for_contact.set()
 
@@ -165,7 +165,9 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
             rez,
         )
         if rez == "error":
-            await message.answer("Цього номера немає у базі.Перевірте дані уважно")
+            await message.answer(
+                _("This number is not in the database. Check the data carefully")
+            )
             return
 
         await message.answer(
@@ -194,7 +196,7 @@ async def handle_email_choice(message: types.Message):
 
     await YourState.waiting_for_email.set()
     await message.answer(
-        "Ви вибрали авторизацію за почтою. Будь ласка, введіть свій емейл."
+        _("You have selected authorization by mail. Please enter your email.")
     )
 
 
@@ -207,7 +209,9 @@ async def handle_contact_email(message: types.Message):
     except EmailNotValidError as e:
         print(f"Email is not valid: {e}")
         await YourState.waiting_for_email.set()
-        await message.answer("Електронну адресу введено неправильно.Повторіть спробу")
+        await message.answer(
+            _("The email address you entered is incorrect. Please try again")
+        )
         return
     params = {"email": email, "chat_id": message.chat.id}
 
@@ -218,7 +222,10 @@ async def handle_contact_email(message: types.Message):
     if result["status"] == "error":
         await YourState.waiting_for_email.set()
         await message.answer(
-            "Цієї пошти немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+            _(
+                "This mail is not in the database. "
+                "Make sure that you are logging in from the right account"
+            )
         )
     else:
 
@@ -233,8 +240,10 @@ async def handle_contact_email(message: types.Message):
         if dataResult == "error":
             await YourState.waiting_for_email.set()
             await message.answer(
-                "Помилка відправлення.Будь ласка, переконайтесь ,"
-                "що ввели все правильно і введіть свій email заново"
+                _(
+                    "Sending error. Please make sure that you entered "
+                    "everything correctly and enter your email again"
+                )
             )
             return
         else:
@@ -248,8 +257,10 @@ async def handle_contact_email(message: types.Message):
 
         await YourState.waiting_for_code.set()
         await message.answer(
-            "Вам був надісланий код підтвердження на вашу адресу електронної пошти. "
-            "Будь ласка, введіть його."
+            _(
+                "A verification code has been sent "
+                "to your email address. Please enter it."
+            )
         )
 
 
@@ -274,8 +285,10 @@ async def handle_code(message: types.Message):
     if code_check != code:
         await YourState.waiting_for_email.set()
         await message.answer(
-            "Не правильно. Будь ласка, переконайтесь ,"
-            "що ввели все правильно і введіть свій email заново"
+            _(
+                "Not right. Please make sure that you entered "
+                "everything correctly and enter your email again"
+            )
         )
         return
 

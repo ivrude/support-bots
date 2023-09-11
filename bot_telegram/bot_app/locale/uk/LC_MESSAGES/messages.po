@@ -130,3 +130,39 @@ msgstr "Вам був надісланий код підтвердження н�
 
 msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
 msgstr "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "Timed out, authenticate again"
+msgstr "Час вийшов, пройдіть аутентифікацію заново"
+
+msgid "Time is up, communication is complete"
+msgstr "Час вийшов, комунікація завершена"
+
+msgid "Authorization by phone. Please send your phone number."
+msgstr "Авторизація за телефоном. Будь ласка, надішліть свій номер телефону."
+
+msgid "This number is not in the database. Check the data carefully"
+msgstr "Цього номера немає у базі.Перевірте дані уважно"
+
+msgid "You have selected authorization by mail. Please enter your email."
+msgstr "Ви вибрали авторизацію за поштою. Будь ласка, введіть свій емейл."
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr "Електронну адресу введено неправильно.Повторіть спробу"
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr "Цієї пошти немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Помилка відправлення.Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr "Вам був надісланий код підтвердження на вашу адресу електронної пошти. Будь ласка, введіть його."
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
