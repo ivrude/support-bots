@@ -13,7 +13,7 @@ REDIS_PASSWORD = ""
 
 
 # api
-BASE_HOST = "http://localhost:8000"
+BASE_HOST = "http://host.docker.internal:8000"
 url_check_number = BASE_HOST + "/api/v1/support/check_number"
 url_check_email = BASE_HOST + "/api/v1/support/check_email"
 url_news_list = BASE_HOST + "/api/v1/support/get_news_list"
