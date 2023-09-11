@@ -7,7 +7,7 @@ services:
     environment:
       - TELEGRAM_BOT_TOKEN=6688922542:AAGh684fYzwNM1mgYdHz-iIvVYp8apOsLX0
       - DOMAIN_TOKEN=25ac8a5c-3a1d-4f05-80bf-eb23c66ff4dc
-      - NGROK_URL=https://f534-77-47-175-15.ngrok-free.app
+      - NGROK_URL=https://9920-77-47-175-15.ngrok-free.app
     ports:
       - "5000:5000"
     command: ["python", "-m", "main"]

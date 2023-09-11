@@ -96,29 +96,37 @@ async def language(callback_query: types.CallbackQuery):
 
     await set_language(user_id, selected_language)
 
-    await bot.send_message(user_id, _("Choosen language eanglish"))
+    await bot.send_message(
+        user_id, _("Choosen language eanglish", locale=selected_language)
+    )
 
-    button1 = types.KeyboardButton(_("Phone number"), request_contact=True)
-    button2 = types.KeyboardButton(_("Email"))
-    button3 = types.KeyboardButton(_("Back"))
+    button1 = types.KeyboardButton(
+        _("Phone number", locale=selected_language), request_contact=True
+    )
+    button2 = types.KeyboardButton(_("Email", locale=selected_language))
+    button3 = types.KeyboardButton(_("Back", locale=selected_language))
     keyboard = types.ReplyKeyboardMarkup(
         row_width=1, resize_keyboard=True, one_time_keyboard=True
     )
     keyboard.add(button1)
     keyboard.add(button2)
     keyboard.add(button3)
-    await bot.send_message(user_id, _("Choose how to auth"), reply_markup=keyboard)
+    await bot.send_message(
+        user_id,
+        _("Choose how to auth", locale=selected_language),
+        reply_markup=keyboard,
+    )
     await YourState.waiting_for_contact.set()
 
 
-@dp.message_handler(lambda message: message.text in ["Назад", "Back"], state="*")
+@dp.message_handler(lambda message: message.text == _("Back"), state="*")
 async def handle_back(message: types.Message, state: FSMContext):
     await state.finish()
     await handle_start(message)
 
 
 @dp.message_handler(
-    lambda message: message.text in ["Phone number", "Номер телефону"],
+    lambda message: message.text == _("Phone number"),
     state=YourState.waiting_for_contact,
 )
 async def handle_phone_authorization(message: types.Message):
@@ -189,7 +197,7 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
 
 
 @dp.message_handler(
-    lambda message: message.text in ["Email", "Імейл"],
+    lambda message: message.text == _("Email"),
     state=YourState.waiting_for_contact,
 )
 async def handle_email_choice(message: types.Message):
@@ -306,7 +314,7 @@ async def handle_code(message: types.Message):
 
 
 @dp.message_handler(
-    lambda message: message.text in ["Меню", "Menu"],
+    lambda message: message.text == _("Menu"),
     state=[
         YourState.waiting_for_feedback,
         YourState.feedback,
@@ -344,9 +352,7 @@ async def handle_settings_ua(message: types.Message, state: FSMContext):
     await YourState.main.set()
 
 
-@dp.message_handler(
-    lambda message: message.text in ["Settings", "Налаштування"], state=YourState.main
-)
+@dp.message_handler(lambda message: message.text == _("Settings"), state=YourState.main)
 async def handle_settings_user(message: types.Message, state: FSMContext):  # noqa
     stored_data = await storage.get_data(
         chat=message.chat.id, user=message.from_user.id
@@ -367,7 +373,7 @@ async def handle_settings_user(message: types.Message, state: FSMContext):  # no
 
 
 @dp.message_handler(
-    lambda message: message.text in ["Сповіщення", "Notifications"],
+    lambda message: message.text == _("Notifications"),
     state=YourState.settings,
 )
 async def handle_notifications_eng(message: types.Message, state: FSMContext):
@@ -392,9 +398,7 @@ async def handle_notifications_eng(message: types.Message, state: FSMContext):
     await YourState.main.set()
 
 
-@dp.message_handler(
-    lambda message: message.text in ["News", "Новини"], state=YourState.main
-)
+@dp.message_handler(lambda message: message.text == _("News"), state=YourState.main)
 async def handle_news(message: types.Message, state: FSMContext):
     stored_data = await storage.get_data(
         chat=message.chat.id, user=message.from_user.id
@@ -525,9 +529,7 @@ async def process_next_button(callback_query: types.CallbackQuery, state: FSMCon
     )
 
 
-@dp.message_handler(
-    lambda message: message.text in ["Пропозиції", "Offers"], state=YourState.main
-)
+@dp.message_handler(lambda message: message.text == _("Offers"), state=YourState.main)
 async def handle_offers(message: types.Message, state: FSMContext):
     stored_data = await storage.get_data(
         chat=message.from_user.id, user=message.from_user.id
@@ -555,9 +557,7 @@ async def handle_offers(message: types.Message, state: FSMContext):
     await YourState.feedback.set()
 
 
-@dp.message_handler(
-    lambda message: message.text in ["Побажання", "Wish"], state=YourState.feedback
-)
+@dp.message_handler(lambda message: message.text == _("Wish"), state=YourState.feedback)
 async def handle_wish(message: types.Message, state: FSMContext):  # noqa
     stored_data = await storage.get_data(
         chat=message.from_user.id, user=message.from_user.id
@@ -605,7 +605,7 @@ async def handle_suggestion(message: types.Message):
 
 
 @dp.message_handler(
-    lambda message: message.text in ["Скарга", "Complaint"], state=YourState.feedback
+    lambda message: message.text == _("Complaint"), state=YourState.feedback
 )
 async def handle_complaint(message: types.Message, state: FSMContext):  # noqa
     stored_data = await storage.get_data(
@@ -651,9 +651,7 @@ async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
     await YourState.main.set()
 
 
-@dp.message_handler(
-    lambda message: message.text in ["Support", "Техпідтримка"], state=YourState.main
-)
+@dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
 async def handle_support(message: types.Message, state: FSMContext):
     stored_data = await storage.get_data(
         chat=message.from_user.id, user=message.from_user.id
@@ -695,8 +693,6 @@ async def handle_issue(message: types.Message, state: FSMContext):  # noqa
     asyncio.create_task(thread(message.chat.id, message.from_user.id))
 
 
-@dp.message_handler(
-    lambda message: message.text in ["Help", "Допомога"], state=YourState.main
-)
+@dp.message_handler(lambda message: message.text == _("Help"), state=YourState.main)
 async def handle_help(message: types.Message, state: FSMContext):
     await message.answer("Help")
