@@ -161,8 +161,8 @@ msgstr "Вам був надісланий код підтвердження н�
 msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
 msgstr "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
 
-msgid ""
-msgstr ""
+msgid "send code again"
+msgstr "надіслати код знову"
 
-msgid ""
-msgstr ""
+msgid "Thank you"
+msgstr "Дякую"

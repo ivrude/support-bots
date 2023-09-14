@@ -157,8 +157,8 @@ msgstr "Вам был отправлен код подтверждения на 
 msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
 msgstr "Не верно. Пожалуйста, убедитесь, что ввели все правильно и введите свой email заново"
 
-msgid ""
-msgstr ""
+msgid "send code again"
+msgstr "отправить код снова"
 
-msgid ""
-msgstr ""
+msgid "Thank you"
+msgstr "Спасибо"

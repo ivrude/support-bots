@@ -160,8 +160,8 @@ msgstr ""
 msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
 msgstr ""
 
-msgid ""
+msgid "send code again"
 msgstr ""
 
-msgid ""
+msgid "Thank you"
 msgstr ""

@@ -3,19 +3,11 @@ from typing import Any, Optional, Tuple
 
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 
+from ..app import storage
+
 BASE_DIR = Path(__file__).parent.parent
 LOCALE_DOMAIN = "messages"
 LOCALE_DIR = BASE_DIR / "locale"
-
-language = {}
-
-
-async def set_language(user_id: int, lang: str):
-    language[user_id] = lang
-
-
-async def get_lang(user_id: int) -> str:
-    return language.get(user_id, None)
 
 
 async def get_locale_middleware(dp):
@@ -31,8 +23,13 @@ def get_locale_middleware_sync(dp):
 class LocaleMiddleware(I18nMiddleware):
     async def get_user_locale(self, action: str, args: Tuple[Any]) -> Optional[str]:
         user_id = args[0].from_user.id
-        lang = await get_lang(user_id)
-        return lang
+        stored_data = await storage.get_data(chat=user_id, user=user_id)
+        if "language" in stored_data:
+
+            selected_language = stored_data["language"]
+        else:
+            selected_language = "en"
+        return selected_language
 
 
 def setup_locale_middleware(dp):

@@ -20,4 +20,7 @@ url_news_list = BASE_HOST + "/api/v1/support/get_news_list"
 url_get_news = BASE_HOST + "/api/v1/support/get_news"
 url_new_thread = BASE_HOST + "/api/v1/support/new_thread"
 url_email_code = BASE_HOST + "/api/v1/support/email_code"
-headers = {"Authorization": f"Bearer {TOKEN_DOMAIN}", "Accept": "application/json"}
+url_check_email_code = BASE_HOST + "/api/v1/support/check_email_code"
+
+
+headers = {"DOMAIN-UUID": TOKEN_DOMAIN, "Accept": "application/json"}

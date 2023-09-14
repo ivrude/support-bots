@@ -8,33 +8,17 @@ from email_validator import EmailNotValidError, validate_email
 
 from .app import bot, dp, storage
 from .settings.configs import (
+    TOKEN_DOMAIN,
     headers,
     url_check_email,
+    url_check_email_code,
     url_check_number,
     url_email_code,
     url_get_news,
     url_new_thread,
     url_news_list,
 )
-from .settings.locale import (
-    get_locale_middleware_sync,
-    set_language,
-    setup_locale_middleware,
-)
-
-
-async def reset_code(chat_id, user_id):
-    await asyncio.sleep(
-        180
-    )  # previously said that the login code is temporary to improve security
-    stored_data = await storage.get_data(chat=chat_id, user=user_id)
-    print(stored_data)
-    code_check = int(stored_data["code"])
-    if code_check != 0:
-        data_to_store = {"code": 0}
-        await storage.update_data(chat=chat_id, user=user_id, data=data_to_store)
-        await YourState.waiting_for_email.set()
-        await bot.send_message(chat_id=chat_id, text=_("Timed out, authenticate again"))
+from .settings.locale import get_locale_middleware_sync, setup_locale_middleware
 
 
 async def thread(chat_id, user_id):
@@ -94,8 +78,6 @@ async def language(callback_query: types.CallbackQuery):
     data_to_store = {"language": selected_language}
     await storage.set_data(chat=user_id, user=user_id, data=data_to_store)
 
-    await set_language(user_id, selected_language)
-
     await bot.send_message(
         user_id, _("Choosen language eanglish", locale=selected_language)
     )
@@ -140,14 +122,11 @@ async def handle_phone_authorization(message: types.Message):
     content_types=types.ContentTypes.CONTACT, state=YourState.waiting_for_contact
 )
 async def handle_contact_authorization(message: types.Message, state: FSMContext):
-    user_id = message.from_user.id
     stored_data = await storage.get_data(
         chat=message.chat.id, user=message.from_user.id
     )
     print(stored_data)
     selected_language = stored_data["language"]
-
-    await set_language(user_id, selected_language)
     keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     keyboard.add(_("Back"))
     user_id = message.from_user.id
@@ -163,7 +142,7 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
         params = {"number": number, "chat_id": message.chat.id}
         print(message.chat.id)
         print(message.from_user.id)
-
+        print(params)
         response = requests.get(url_check_number, headers=headers, params=params)
 
         result = response.json()
@@ -201,16 +180,27 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
     state=YourState.waiting_for_contact,
 )
 async def handle_email_choice(message: types.Message):
-
+    stored_data = await storage.get_data(
+        chat=message.chat.id, user=message.from_user.id
+    )
+    print(stored_data)
+    selected_language = stored_data["language"]
     await YourState.waiting_for_email.set()
     await message.answer(
-        _("You have selected authorization by mail. Please enter your email.")
+        _(
+            "You have selected authorization by mail. Please enter your email.",
+            locale=selected_language,
+        )
     )
 
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_email)
 async def handle_contact_email(message: types.Message):
     email = message.text
+    data_to_store = {"email": email}
+    await storage.update_data(
+        chat=message.chat.id, user=message.from_user.id, data=data_to_store
+    )
     try:
         validate_email(email)
         print("Email is valid")
@@ -221,11 +211,14 @@ async def handle_contact_email(message: types.Message):
             _("The email address you entered is incorrect. Please try again")
         )
         return
+    print("33")
     params = {"email": email, "chat_id": message.chat.id}
-
+    print("32")
+    print(params)
     response = requests.get(url_check_email, headers=headers, params=params)
-
+    print("31")
     result = response.json()
+    print("30")
     print(result)
     if result["status"] == "error":
         await YourState.waiting_for_email.set()
@@ -236,61 +229,75 @@ async def handle_contact_email(message: types.Message):
             )
         )
     else:
-
+        stored_data = await storage.get_data(
+            chat=message.chat.id, user=message.from_user.id
+        )
+        selected_language = stored_data["language"]
         params = {
             "email": email,
         }
+        print(selected_language)
+        headers_email = {
+            "accept": "application/json",
+            "DOMAIN-UUID": TOKEN_DOMAIN,
+            "Content-Type": "application/json",
+            "Accept-Language": selected_language,
+        }
 
-        response1 = requests.post(url_email_code, params=params, headers=headers)
+        response1 = requests.post(url_email_code, json=params, headers=headers_email)
         data = response1.json()
         print(data)
         dataResult = data["data"]["result"]
-        if dataResult == "error":
+        if dataResult != "ok":
             await YourState.waiting_for_email.set()
-            await message.answer(
-                _(
-                    "Sending error. Please make sure that you entered "
-                    "everything correctly and enter your email again"
-                )
-            )
+            await message.answer(dataResult)
             return
-        else:
-
-            data_to_store = {"code": dataResult}
-
-            await storage.update_data(
-                chat=message.from_user.id, user=message.from_user.id, data=data_to_store
-            )
-            asyncio.create_task(reset_code(message.chat.id, message.from_user.id))
 
         await YourState.waiting_for_code.set()
+
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        button = types.KeyboardButton("send code again")
+        keyboard.add(button)
         await message.answer(
             _(
                 "A verification code has been sent "
                 "to your email address. Please enter it."
-            )
+            ),
+            reply_markup=keyboard,
         )
+
+
+@dp.message_handler(
+    lambda message: message.text == "send code again", state=YourState.waiting_for_code
+)
+async def again_code(message: types.Message):
+    stored_data = await storage.get_data(
+        chat=message.chat.id, user=message.from_user.id
+    )
+    email = stored_data["email"]
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button = types.KeyboardButton(email)
+    keyboard.add(button)
+    await message.answer(
+        "Click the email button or write your email", reply_markup=keyboard
+    )
+    await YourState.waiting_for_email.set()
 
 
 @dp.message_handler(
     lambda message: message.text.isdigit(), state=YourState.waiting_for_code
 )
 async def handle_code(message: types.Message):
+    code = message.text
     stored_data = await storage.get_data(
         chat=message.chat.id, user=message.from_user.id
     )
-    print(stored_data)
-    selected_language = stored_data["language"]
+    email = stored_data["email"]
+    params = {"email": email, "code": code}
+    response = requests.get(url_check_email_code, headers=headers, params=params)
+    code_data = response.json()
 
-    await set_language(message.from_user.id, selected_language)
-    code = int(message.text)
-
-    code_check = int(stored_data["code"])
-    data_to_store = {"code": 0}
-    await storage.update_data(
-        chat=message.chat.id, user=message.from_user.id, data=data_to_store
-    )
-    if code_check != code:
+    if code_data["status"] == "error":
         await YourState.waiting_for_email.set()
         await message.answer(
             _(
@@ -325,13 +332,7 @@ async def handle_code(message: types.Message):
     ],
 )
 async def handle_settings_ua(message: types.Message, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=message.chat.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     buttons = [
         types.KeyboardButton(text=_("News")),
         types.KeyboardButton(text=_("Settings")),
@@ -354,13 +355,7 @@ async def handle_settings_ua(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text == _("Settings"), state=YourState.main)
 async def handle_settings_user(message: types.Message, state: FSMContext):  # noqa
-    stored_data = await storage.get_data(
-        chat=message.chat.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     button1 = types.KeyboardButton(_("Profile"))
     button2 = types.KeyboardButton(_("Notifications"))
     keyboard = types.ReplyKeyboardMarkup(
@@ -377,13 +372,7 @@ async def handle_settings_user(message: types.Message, state: FSMContext):  # no
     state=YourState.settings,
 )
 async def handle_notifications_eng(message: types.Message, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=message.chat.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     button1 = types.KeyboardButton(_("Get Notifications"))
     button2 = types.KeyboardButton(_("Dont get Notifications"))
     button3 = types.KeyboardButton(_("Menu"))
@@ -400,13 +389,7 @@ async def handle_notifications_eng(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text == _("News"), state=YourState.main)
 async def handle_news(message: types.Message, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=message.chat.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     await message.answer(_("This is list of our news"))
 
     response = requests.get(url_news_list, headers=headers)
@@ -415,7 +398,12 @@ async def handle_news(message: types.Message, state: FSMContext):
     print(data)
     print(news_list)
     i = 0
-    params = {"index": news_list[i]}
+    if len(news_list) > 0:
+        params = {"index": news_list[i]}
+    else:
+        await message.answer(_("This is empty"))
+        return
+
     response_get = requests.get(url_get_news, headers=headers, params=params)
     data_news = response_get.json()
     print(data_news)
@@ -442,13 +430,7 @@ async def handle_news(message: types.Message, state: FSMContext):
     lambda query: query.data.startswith("prev"), state=YourState.main
 )
 async def process_prev_button(callback_query: types.CallbackQuery, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=callback_query.from_user.id, user=callback_query.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(callback_query.from_user.id, selected_language)
     i = int(callback_query.data.split("_")[1]) - 1
 
     response = requests.get(url_news_list, headers=headers)
@@ -487,13 +469,6 @@ async def process_prev_button(callback_query: types.CallbackQuery, state: FSMCon
     lambda query: query.data.startswith("next"), state=YourState.main
 )
 async def process_next_button(callback_query: types.CallbackQuery, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=callback_query.from_user.id, user=callback_query.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
-
-    await set_language(callback_query.from_user.id, selected_language)
 
     i = int(callback_query.data.split("_")[1]) + 1
 
@@ -531,13 +506,7 @@ async def process_next_button(callback_query: types.CallbackQuery, state: FSMCon
 
 @dp.message_handler(lambda message: message.text == _("Offers"), state=YourState.main)
 async def handle_offers(message: types.Message, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     button1 = types.KeyboardButton(
         _("Wish"),
     )
@@ -559,13 +528,7 @@ async def handle_offers(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text == _("Wish"), state=YourState.feedback)
 async def handle_wish(message: types.Message, state: FSMContext):  # noqa
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     await message.answer(
         _("Write your wish please"), reply_markup=types.ReplyKeyboardRemove()
     )
@@ -574,13 +537,7 @@ async def handle_wish(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_feedback)
 async def handle_suggestion(message: types.Message):
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     button1 = types.KeyboardButton(
         _("Menu"),
     )
@@ -608,13 +565,7 @@ async def handle_suggestion(message: types.Message):
     lambda message: message.text == _("Complaint"), state=YourState.feedback
 )
 async def handle_complaint(message: types.Message, state: FSMContext):  # noqa
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     await message.answer(
         _("Write your complaint please"), reply_markup=types.ReplyKeyboardRemove()
     )
@@ -623,13 +574,7 @@ async def handle_complaint(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_complain)
 async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     button1 = types.KeyboardButton(
         _("Menu"),
     )
@@ -653,13 +598,7 @@ async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
 async def handle_support(message: types.Message, state: FSMContext):
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     await message.answer(
         "Write your issue please", reply_markup=types.ReplyKeyboardRemove()
     )
@@ -668,13 +607,7 @@ async def handle_support(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_issue)
 async def handle_issue(message: types.Message, state: FSMContext):  # noqa
-    stored_data = await storage.get_data(
-        chat=message.from_user.id, user=message.from_user.id
-    )
-    print(stored_data)
-    selected_language = stored_data["language"]
 
-    await set_language(message.from_user.id, selected_language)
     params = {
         "name": message.text,
         "type": "issue",

@@ -6,8 +6,8 @@ services:
       dockerfile: bot_telegram/Dockerfile
     environment:
       - TELEGRAM_BOT_TOKEN=6688922542:AAGh684fYzwNM1mgYdHz-iIvVYp8apOsLX0
-      - DOMAIN_TOKEN=25ac8a5c-3a1d-4f05-80bf-eb23c66ff4dc
-      - NGROK_URL=https://9920-77-47-175-15.ngrok-free.app
+      - DOMAIN_TOKEN=920c685a-9a5c-4df6-99fc-bae09a92b405
+      - NGROK_URL=https://2df8-77-47-175-15.ngrok-free.app
     ports:
       - "5000:5000"
     command: ["python", "-m", "main"]
