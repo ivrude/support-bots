@@ -17,7 +17,7 @@ async def on_startup(_):
     uri = "ws://localhost:8800/ws/chat/test/"
     websocket_connection = await websockets.connect(uri)
 
-    # Зберігаємо WebSocket-з'єднання у dp.data
+
     dp.data['websocket_connection'] = websocket_connection
 
 
