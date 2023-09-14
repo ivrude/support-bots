@@ -4,6 +4,7 @@ import requests
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+import json
 from email_validator import EmailNotValidError, validate_email
 
 from .app import bot, dp, storage
@@ -17,6 +18,7 @@ from .settings.configs import (
     url_get_news,
     url_new_thread,
     url_news_list,
+    TOKEN
 )
 from .settings.locale import get_locale_middleware_sync, setup_locale_middleware
 
@@ -56,7 +58,16 @@ class YourState(StatesGroup):
 i18n = get_locale_middleware_sync(dp)
 _ = i18n.gettext
 
+async def send_message_to_websocket(message, user_id, thread,token, photo=None):
+    websocket_connection = dp.data['websocket_connection']
 
+    data = {"message": message, "user_id": user_id, "thread": thread, "token":token}
+
+    if photo:
+        data["photo"] = photo  # Додайте фото до даних, якщо воно існує
+
+    message_json = json.dumps(data)
+    await websocket_connection.send(message_json)
 @dp.message_handler(commands=["start"])
 async def handle_start(message: types.Message):
     keyboard = types.InlineKeyboardMarkup(row_width=1, resize_keyboard=True)
@@ -596,18 +607,46 @@ async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
     await YourState.main.set()
 
 
-@dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
-async def handle_support(message: types.Message, state: FSMContext):
+#@dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
+#async def handle_support(message: types.Message, state: FSMContext):
+#
+#    await message.answer(
+#        "Write your issue please", reply_markup=types.ReplyKeyboardRemove()
+#    )
+#    await YourState.waiting_for_issue.set()
+#
+#
+#@dp.message_handler(lambda message: message.text, state=YourState.waiting_for_issue)
+#async def handle_issue(message: types.Message, state: FSMContext):  # noqa
+#
+#    params = {
+#        "name": message.text,
+#        "type": "issue",
+#        "chat_id": message.chat.id,
+#        "socials": "telegram",
+#    }
+#
+#    response = requests.post(url_new_thread, json=params, headers=headers)
+#    print(response.status_code)
+#    print(response.text)
+#    await message.answer(_("Thank you for your issue.Wait"))
+#    data_to_store = {"thread": {"thread": message.text, "thread_result": False}}
+#    await storage.update_data(
+#        chat=message.chat.id, user=message.from_user.id, data=data_to_store
+#    )
+#    asyncio.create_task(thread(message.chat.id, message.from_user.id))
 
-    await message.answer(
-        "Write your issue please", reply_markup=types.ReplyKeyboardRemove()
-    )
-    await YourState.waiting_for_issue.set()
+
+@dp.message_handler(lambda message: message.text == _("Help"), state=YourState.main)
+async def handle_help(message: types.Message, state: FSMContext):
+    await message.answer("Help")
+@dp.message_handler(lambda message: message.text == _("Support"), state="*")
+async def start_command(message: types.Message):
+    await message.answer("Ви можете надсилати повідомлення. Для цього просто напишіть їх.")
 
 
-@dp.message_handler(lambda message: message.text, state=YourState.waiting_for_issue)
-async def handle_issue(message: types.Message, state: FSMContext):  # noqa
-
+@dp.message_handler(lambda message: True)
+async def handle_message(message: types.Message):
     params = {
         "name": message.text,
         "type": "issue",
@@ -616,16 +655,9 @@ async def handle_issue(message: types.Message, state: FSMContext):  # noqa
     }
 
     response = requests.post(url_new_thread, json=params, headers=headers)
-    print(response.status_code)
-    print(response.text)
-    await message.answer(_("Thank you for your issue.Wait"))
-    data_to_store = {"thread": {"thread": message.text, "thread_result": False}}
-    await storage.update_data(
-        chat=message.chat.id, user=message.from_user.id, data=data_to_store
-    )
-    asyncio.create_task(thread(message.chat.id, message.from_user.id))
+    print(response.json())
+    user_id = message.from_user.id
+    thread = "thread1000"
+    token = TOKEN
 
-
-@dp.message_handler(lambda message: message.text == _("Help"), state=YourState.main)
-async def handle_help(message: types.Message, state: FSMContext):
-    await message.answer("Help")
+    await send_message_to_websocket(message.text, user_id, thread, token)

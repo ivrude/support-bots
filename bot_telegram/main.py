@@ -1,3 +1,4 @@
+import websockets
 from aiogram import types
 from aiogram.dispatcher.webhook import get_new_configured_app
 from aiohttp import web
@@ -13,6 +14,11 @@ async def set_webhook():
 
 async def on_startup(_):
     await set_webhook()
+    uri = "ws://localhost:8800/ws/chat/test/"
+    websocket_connection = await websockets.connect(uri)
+
+    # Зберігаємо WebSocket-з'єднання у dp.data
+    dp.data['websocket_connection'] = websocket_connection
 
 
 async def handle_webhook(request):
