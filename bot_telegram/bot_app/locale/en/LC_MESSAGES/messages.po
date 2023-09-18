@@ -165,3 +165,9 @@ msgstr ""
 
 msgid "Thank you"
 msgstr ""
+
+msgid "Write your issue please"
+msgstr ""
+
+msgid "Thank you for your issue.Wait"
+msgstr ""

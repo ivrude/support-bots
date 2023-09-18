@@ -162,3 +162,9 @@ msgstr "отправить код снова"
 
 msgid "Thank you"
 msgstr "Спасибо"
+
+msgid "Write your issue please"
+msgstr "Напишите вашу проблему, пожалуйста"
+
+msgid "Thank you for your issue.Wait"
+msgstr "Спасибо за вашу проблему. Подождите."
