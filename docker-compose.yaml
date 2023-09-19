@@ -1,0 +1,15 @@
+version: '3'
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: bot_telegram/Dockerfile
+    env_file:
+      - configs/configs.env
+    ports:
+      - "5000:5000"
+    command: ["python", "-m", "main"]
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"

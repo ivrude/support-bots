@@ -1,0 +1,174 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-08-23 23:35+0300\n"
+"PO-Revision-Date: 2023-08-23 23:35+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: main.py:39
+msgid "Choosen language eanglish"
+msgstr "Вибрана мова українська"
+
+#: main.py:48
+msgid "Phone number"
+msgstr "Номер телефону"
+
+#: main.py:57
+msgid "Email"
+msgstr "Імейл"
+
+#: main.py:66
+msgid "Back"
+msgstr "Назад"
+
+msgid "Choose how to auth"
+msgstr "Виберіть як зареєструватись"
+
+msgid "You sucsesful autorised"
+msgstr "Ви успішно авторизувались"
+
+msgid "Choose menu punkt"
+msgstr "Вибрати пункт меню"
+
+msgid "Menu"
+msgstr "Меню"
+
+msgid "News"
+msgstr "Новини"
+
+msgid "Settings"
+msgstr "Налаштування"
+
+msgid "Offers"
+msgstr "Пропозиції"
+
+msgid "Help"
+msgstr "Допомога"
+
+msgid "Support"
+msgstr "Техпідтримка"
+
+msgid "Profile"
+msgstr "Профіль"
+
+msgid "Notifications"
+msgstr "Сповіщення"
+
+msgid "Choose above"
+msgstr "Оберіть нижче"
+
+msgid "Get Notifications"
+msgstr "Отримувати сповіщення"
+
+msgid "Dont get Notifications"
+msgstr "Не отримувати сповіщення"
+
+msgid "Wish"
+msgstr "Побажання"
+
+msgid "Complaint"
+msgstr "Скарга"
+
+msgid "Choose type of offer"
+msgstr "Виберіть тип звернення"
+
+msgid "Write your wish please"
+msgstr "Напишіть нам ваше побажання"
+
+msgid "Thank you for your wishes"
+msgstr "Дякую за ваші побажання"
+
+msgid "This is list of our news"
+msgstr "Це список наших новин"
+
+msgid "Topik"
+msgstr "Новина"
+
+msgid "Write your complaint please"
+msgstr "Розпишіть вашу скаргу будь ласка"
+
+msgid "Thank you for your complaint"
+msgstr "Дякуємо за вашу скаргу, ми обов'язково її розглянемо"
+
+msgid "You are trying to use not your number"
+msgstr "Ви намагаєтесь ввести не ваш номер"
+
+msgid "Language"
+msgstr "Мова"
+
+msgid "This number is not sign on our product"
+msgstr "Цього номера немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+
+msgid "Please enter your email"
+msgstr "Будь ласка введіть свій емейл"
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr "Цієї пошти немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr "Електронну адресу введено неправильно.Повторіть спробу"
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Помилка відправлення.Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr "Вам був надісланий код підтвердження на вашу адресу електронної пошти. Будь ласка, введіть його."
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "Timed out, authenticate again"
+msgstr "Час вийшов, пройдіть аутентифікацію заново"
+
+msgid "Time is up, communication is complete"
+msgstr "Час вийшов, комунікація завершена"
+
+msgid "Authorization by phone. Please send your phone number."
+msgstr "Авторизація за телефоном. Будь ласка, надішліть свій номер телефону."
+
+msgid "This number is not in the database. Check the data carefully"
+msgstr "Цього номера немає у базі.Перевірте дані уважно"
+
+msgid "You have selected authorization by mail. Please enter your email."
+msgstr "Ви вибрали авторизацію за поштою. Будь ласка, введіть свій емейл."
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr "Електронну адресу введено неправильно.Повторіть спробу"
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr "Цієї пошти немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Помилка відправлення.Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr "Вам був надісланий код підтвердження на вашу адресу електронної пошти. Будь ласка, введіть його."
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr "Не правильно. Будь ласка, переконайтесь ,що ввели все правильно і введіть свій email заново"
+
+msgid "send code again"
+msgstr "надіслати код знову"
+
+msgid "Thank you"
+msgstr "Дякую"
+
+msgid "Write your issue please"
+msgstr "Будь ласка, напишіть свою проблему"
+
+msgid "Thank you for your issue.Wait"
+msgstr "Дякуємо за проблему. Зачекайте"

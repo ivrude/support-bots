@@ -106,3 +106,68 @@ msgstr ""
 msgid "You are trying to use not your number"
 msgstr ""
 
+msgid "Language"
+msgstr ""
+
+msgid "This number is not sign on our product"
+msgstr ""
+
+msgid "Please enter your email"
+msgstr ""
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr ""
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr ""
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr ""
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr ""
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr ""
+
+msgid "Timed out, authenticate again"
+msgstr ""
+
+msgid "Time is up, communication is complete"
+msgstr ""
+
+msgid "Authorization by phone. Please send your phone number."
+msgstr ""
+
+msgid "This number is not in the database. Check the data carefully"
+msgstr ""
+
+msgid "You have selected authorization by mail. Please enter your email."
+msgstr ""
+
+msgid "The email address you entered is incorrect. Please try again"
+msgstr ""
+
+msgid "This mail is not in the database. Make sure that you are logging in from the right account"
+msgstr ""
+
+msgid "Sending error. Please make sure that you entered everything correctly and enter your email again"
+msgstr ""
+
+msgid "A verification code has been sent to your email address. Please enter it."
+msgstr ""
+
+msgid "Not right. Please make sure that you entered everything correctly and enter your email again"
+msgstr ""
+
+msgid "send code again"
+msgstr ""
+
+msgid "Thank you"
+msgstr ""
+
+msgid "Write your issue please"
+msgstr ""
+
+msgid "Thank you for your issue.Wait"
+msgstr ""
