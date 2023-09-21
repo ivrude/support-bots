@@ -28,4 +28,4 @@ url_send_video = BASE_HOST + "/api/v1/support/send_video"
 
 
 
-headers = {"Authorization": f"Bearer {TOKEN_DOMAIN}", "Accept": "application/json"}
+headers = {"DOMAIN-UUID": TOKEN_DOMAIN, "Accept": "application/json"}
