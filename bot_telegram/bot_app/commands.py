@@ -64,9 +64,6 @@ async def send_message_to_websocket(message, user_id, thread,token, photo=None):
 
     data = {"message": message, "user_id": user_id, "thread": thread, "token":token}
 
-    if photo:
-        data["photo"] = photo  # Додайте фото до даних, якщо воно існує
-
     message_json = json.dumps(data)
     await websocket_connection.send(message_json)
 @dp.message_handler(commands=["start"])
@@ -434,7 +431,7 @@ async def handle_news(message: types.Message, state: FSMContext):
 
     await bot.send_message(chat_id, _("Topik"), reply_markup=kb)
 
-    # Збережіть id повідомлення в стані
+  
     await state.update_data(message_id=msg_id)
     await YourState.main.set()
 
@@ -665,9 +662,7 @@ async def handle_photo(message: types.Message):
     else:
         await message.answer('Сталася помилка при відправці фотографії на сервер')
     print(photo_url)
-    # Тут ви можете додатково обробляти фото або виконувати необхідні дії
-
-# Додавання обробника для відео
+    
 @dp.message_handler(content_types=['video'], state=YourState.chat)
 async def handle_video(message: types.Message):
     video = message.video
