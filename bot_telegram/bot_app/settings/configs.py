@@ -1,6 +1,6 @@
 import os
 
-web_ngrok = "https://c911-85-114-213-169.ngrok.io"
+web_ngrok = "https://8115-212-90-45-23.ngrok.io"
 
 TOKEN = "6059087374:AAEg4bLEIJqF-PFkjwfIDeOSbESRrJsvvLs"
 TOKEN_DOMAIN = "72c513f9-d8f7-42ef-8e55-528bf3eef117"
@@ -13,7 +13,7 @@ REDIS_PASSWORD = ""
 
 
 # api
-BASE_HOST = "http://localhost:8880"
+BASE_HOST = "http://localhost:8888"
 url_check_number = BASE_HOST + "/api/v1/support/check_number"
 url_check_email = BASE_HOST + "/api/v1/support/check_email"
 url_news_list = BASE_HOST + "/api/v1/support/get_news_list"

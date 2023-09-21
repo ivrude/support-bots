@@ -165,3 +165,9 @@ msgstr "Спасибо"
 
 msgid "Send your messge and we will responce you soon"
 msgstr "Отпрате ваше сообщение и мы скоро вам ответим"
+
+msgid "Write your issue please"
+msgstr "Напишите вашу проблему, пожалуйста"
+
+msgid "Thank you for your issue.Wait"
+msgstr "Спасибо за вашу проблему. Подождите."
