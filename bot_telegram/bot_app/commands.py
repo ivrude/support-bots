@@ -18,7 +18,7 @@ from .settings.configs import (
     url_get_news,
     url_new_thread,
     url_news_list,
-    TOKEN
+    TOKEN, url_send_photo, url_send_video
 )
 from .settings.locale import get_locale_middleware_sync, setup_locale_middleware
 
@@ -53,6 +53,7 @@ class YourState(StatesGroup):
     waiting_for_complain = State()
     waiting_for_language = State()
     waiting_for_issue = State()
+    chat = State()
 
 
 i18n = get_locale_middleware_sync(dp)
@@ -340,6 +341,7 @@ async def handle_code(message: types.Message):
         YourState.offers,
         YourState.settings,
         YourState.menu,
+        YourState.chat,
     ],
 )
 async def handle_settings_ua(message: types.Message, state: FSMContext):
@@ -607,46 +609,22 @@ async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
     await YourState.main.set()
 
 
-#@dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
-#async def handle_support(message: types.Message, state: FSMContext):
-#
-#    await message.answer(
-#        "Write your issue please", reply_markup=types.ReplyKeyboardRemove()
-#    )
-#    await YourState.waiting_for_issue.set()
-#
-#
-#@dp.message_handler(lambda message: message.text, state=YourState.waiting_for_issue)
-#async def handle_issue(message: types.Message, state: FSMContext):  # noqa
-#
-#    params = {
-#        "name": message.text,
-#        "type": "issue",
-#        "chat_id": message.chat.id,
-#        "socials": "telegram",
-#    }
-#
-#    response = requests.post(url_new_thread, json=params, headers=headers)
-#    print(response.status_code)
-#    print(response.text)
-#    await message.answer(_("Thank you for your issue.Wait"))
-#    data_to_store = {"thread": {"thread": message.text, "thread_result": False}}
-#    await storage.update_data(
-#        chat=message.chat.id, user=message.from_user.id, data=data_to_store
-#    )
-#    asyncio.create_task(thread(message.chat.id, message.from_user.id))
 
+thread_num = None
 
 @dp.message_handler(lambda message: message.text == _("Help"), state=YourState.main)
 async def handle_help(message: types.Message, state: FSMContext):
     await message.answer("Help")
-@dp.message_handler(lambda message: message.text == _("Support"), state="*")
+@dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
 async def start_command(message: types.Message):
-    await message.answer("Ви можете надсилати повідомлення. Для цього просто напишіть їх.")
-
-
-@dp.message_handler(lambda message: True)
-async def handle_message(message: types.Message):
+    global thread_num
+    button1 = types.KeyboardButton(
+        _("Menu"),
+    )
+    keyboard = types.ReplyKeyboardMarkup(
+        row_width=1, resize_keyboard=True, one_time_keyboard=True
+    )
+    keyboard.add(button1)
     params = {
         "name": message.text,
         "type": "issue",
@@ -656,8 +634,51 @@ async def handle_message(message: types.Message):
 
     response = requests.post(url_new_thread, json=params, headers=headers)
     print(response.json())
+    thread_num = response.json()['data']['result']
+    print(thread_num)
+    await message.answer(_("Send your messge and we will responce you soon"),reply_markup=keyboard)
+    await YourState.chat.set()
+
+
+@dp.message_handler(lambda message: True, state=YourState.chat)
+async def handle_message(message: types.Message):
+    global thread_num
+
     user_id = message.from_user.id
-    thread = "thread1000"
+    thread = thread_num
     token = TOKEN
 
     await send_message_to_websocket(message.text, user_id, thread, token)
+
+@dp.message_handler(content_types=['photo'], state=YourState.chat)
+async def handle_photo(message: types.Message):
+
+    photo = message.photo[-1]
+    photo_url = await photo.get_url()
+    params = {
+        "url": photo_url
+    }
+
+    response = requests.post(url_send_photo, params=params, headers=headers)
+    if response.status_code == 200:
+        await message.answer('Фотографію успішно відправлено на сервер')
+    else:
+        await message.answer('Сталася помилка при відправці фотографії на сервер')
+    print(photo_url)
+    # Тут ви можете додатково обробляти фото або виконувати необхідні дії
+
+# Додавання обробника для відео
+@dp.message_handler(content_types=['video'], state=YourState.chat)
+async def handle_video(message: types.Message):
+    video = message.video
+    video_url = await video.get_url()
+    params = {
+        "url": video_url,
+    }
+
+    response = requests.post(url_send_video, params=params, headers=headers)
+    if response.status_code == 200:
+        await message.answer('Відео успішно відправлено на сервер')
+    else:
+        await message.answer('Сталася помилка при відправці відео на сервер')
+    print(video_url)

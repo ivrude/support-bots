@@ -162,3 +162,6 @@ msgstr "отправить код снова"
 
 msgid "Thank you"
 msgstr "Спасибо"
+
+msgid "Send your messge and we will responce you soon"
+msgstr "Отпрате ваше сообщение и мы скоро вам ответим"
