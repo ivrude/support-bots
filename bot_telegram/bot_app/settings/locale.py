@@ -25,7 +25,6 @@ class LocaleMiddleware(I18nMiddleware):
         user_id = args[0].from_user.id
         stored_data = await storage.get_data(chat=user_id, user=user_id)
         if "language" in stored_data:
-
             selected_language = stored_data["language"]
         else:
             selected_language = "en"

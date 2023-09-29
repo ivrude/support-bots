@@ -9,7 +9,6 @@ from .utils import YourState, _
 
 @dp.message_handler(lambda message: message.text == _("News"), state=YourState.main)
 async def handle_news(message: types.Message, state: FSMContext):
-
     await message.answer(_("This is list of our news"))
 
     response = requests.get(url_news_list, headers=headers)
@@ -50,7 +49,6 @@ async def handle_news(message: types.Message, state: FSMContext):
     lambda query: query.data.startswith("prev"), state=YourState.main
 )
 async def process_prev_button(callback_query: types.CallbackQuery, state: FSMContext):
-
     i = int(callback_query.data.split("_")[1]) - 1
 
     response = requests.get(url_news_list, headers=headers)
@@ -89,7 +87,6 @@ async def process_prev_button(callback_query: types.CallbackQuery, state: FSMCon
     lambda query: query.data.startswith("next"), state=YourState.main
 )
 async def process_next_button(callback_query: types.CallbackQuery, state: FSMContext):
-
     i = int(callback_query.data.split("_")[1]) + 1
 
     response = requests.get(url_news_list, headers=headers)

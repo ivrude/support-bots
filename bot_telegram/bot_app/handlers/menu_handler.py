@@ -1,16 +1,30 @@
 import json
 
+import requests
 from aiogram import types
 
 from ..app import dp, storage
+from ..settings.configs import  headers, url_send_raiting
 from .utils import YourState, _
-from ..settings.configs import TOKEN, url_send_raiting, headers
-import requests
-async def send_message_to_websocket(message,user_id, thread_id,token, type, language, chat_status):
-    websocket_connection = dp.data['websocket_connection']
-    data = {"message":message,"user_id": user_id, "thread_id": thread_id, "token":token, "type":type,"language":language,"chat_status":chat_status}
+
+
+async def send_message_to_websocket(
+    message, user_id, thread_id, token, type, language, chat_status
+):
+    websocket_connection = dp.data["websocket_connection"]
+    data = {
+        "message": message,
+        "user_id": user_id,
+        "thread_id": thread_id,
+        "token": token,
+        "type": type,
+        "language": language,
+        "chat_status": chat_status,
+    }
     message_json = json.dumps(data)
     await websocket_connection.send(message_json)
+
+
 @dp.message_handler(
     lambda message: message.text == _("Menu"),
     state=[
@@ -24,7 +38,6 @@ async def send_message_to_websocket(message,user_id, thread_id,token, type, lang
     ],
 )
 async def handle_settings_ua(message: types.Message):
-
     buttons = [
         types.KeyboardButton(text=_("News")),
         types.KeyboardButton(text=_("Settings")),
@@ -37,12 +50,14 @@ async def handle_settings_ua(message: types.Message):
     )
     print(stored_data)
     keyboard = types.ReplyKeyboardMarkup(
-        row_width=2, resize_keyboard=True, one_time_keyboard=True
+        row_width=3, resize_keyboard=True, one_time_keyboard=True
     )
     keyboard.add(*buttons)
 
     await message.answer(_("Choose menu punkt"), reply_markup=keyboard)
     await YourState.main.set()
+
+
 @dp.message_handler(
     lambda message: message.text == _("End chating"),
     state=[
@@ -66,16 +81,17 @@ async def handle_mark(message: types.Message):
         row_width=2, resize_keyboard=True, one_time_keyboard=True
     )
     keyboard.add(*buttons)
-    token=TOKEN
-    thread = stored_data.get('thread_num')
-    language = stored_data.get('language')
-    user_id = message.from_user.id
-    type = "close_thread"
-    chat_status = "chat_status"
+    #token = TOKEN
+    #thread = stored_data.get("thread_num")
+    #language = stored_data.get("language")
+    #user_id = message.from_user.id
+    #type = "close_thread"
+    #chat_status = "chat_status"
 
     await message.answer(_("Please rate the agent work"), reply_markup=keyboard)
-    await send_message_to_websocket(message.text,user_id, thread, token, type, language, chat_status)
-
+    #await send_message_to_websocket(
+    #    message.text, user_id, thread, token, type, language, chat_status
+    #)
 
 def send_agent_rating(thread_num, raiting):
     params = {
@@ -90,11 +106,14 @@ def send_agent_rating(thread_num, raiting):
     else:
         print("Error saving rating")
 
-@dp.message_handler(lambda message: message.text in ["1", "2", "3", "4", "5"], state=YourState.chat)
+
+@dp.message_handler(
+    lambda message: message.text in ["1", "2", "3", "4", "5"], state=YourState.chat
+)
 async def handle_rating(message: types.Message):
     user_id = message.from_user.id
     stored_data = await storage.get_data(chat=user_id, user=user_id)
-    thread_num = stored_data.get('thread_num')
+    thread_num = stored_data.get("thread_num")
     raiting = message.text
     print(raiting)
 
@@ -102,4 +121,3 @@ async def handle_rating(message: types.Message):
     await message.answer(_("Thanks for your mark!"))
 
     await handle_settings_ua(message)
-

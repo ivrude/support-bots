@@ -9,7 +9,6 @@ from .utils import YourState, _
 
 @dp.message_handler(lambda message: message.text == _("Offers"), state=YourState.main)
 async def handle_offers(message: types.Message, state: FSMContext):
-
     button1 = types.KeyboardButton(
         _("Wish"),
     )
@@ -31,7 +30,6 @@ async def handle_offers(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text == _("Wish"), state=YourState.feedback)
 async def handle_wish(message: types.Message, state: FSMContext):  # noqa
-
     await message.answer(
         _("Write your wish please"), reply_markup=types.ReplyKeyboardRemove()
     )
@@ -40,7 +38,6 @@ async def handle_wish(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_wish)
 async def handle_suggestion(message: types.Message):
-
     button1 = types.KeyboardButton(
         _("Menu"),
     )
@@ -68,7 +65,6 @@ async def handle_suggestion(message: types.Message):
     lambda message: message.text == _("Complaint"), state=YourState.feedback
 )
 async def handle_complaint(message: types.Message, state: FSMContext):  # noqa
-
     await message.answer(
         _("Write your complaint please"), reply_markup=types.ReplyKeyboardRemove()
     )
@@ -77,7 +73,6 @@ async def handle_complaint(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_complain)
 async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
-
     button1 = types.KeyboardButton(
         _("Menu"),
     )

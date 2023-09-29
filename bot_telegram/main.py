@@ -2,6 +2,7 @@ import websockets
 from aiogram import types
 from aiogram.dispatcher.webhook import get_new_configured_app
 from aiohttp import web
+
 from bot_app import TOKEN, app, bot, dp, webhook_path
 from bot_app.settings.configs import web_ngrok
 
@@ -17,8 +18,7 @@ async def on_startup(_):
     uri = "ws://localhost:8000/ws/chat/test/"
     websocket_connection = await websockets.connect(uri)
 
-
-    dp.data['websocket_connection'] = websocket_connection
+    dp.data["websocket_connection"] = websocket_connection
 
 
 async def handle_webhook(request):
