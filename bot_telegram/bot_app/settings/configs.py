@@ -21,6 +21,10 @@ url_get_news = BASE_HOST + "/api/v1/support/get_news"
 url_new_thread = BASE_HOST + "/api/v1/support/new_thread"
 url_email_code = BASE_HOST + "/api/v1/support/email_code"
 url_check_email_code = BASE_HOST + "/api/v1/support/check_email_code"
+url_send_photo = BASE_HOST + "/api/v1/support/send_photo"
+url_send_video = BASE_HOST + "/api/v1/support/send_video"
+url_send_raiting = BASE_HOST + "/api/v1/support/send_raiting"
+
 
 
 headers = {"DOMAIN-UUID": TOKEN_DOMAIN, "Accept": "application/json"}
