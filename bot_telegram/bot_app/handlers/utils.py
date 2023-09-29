@@ -15,6 +15,8 @@ class YourState(StatesGroup):
     offers = State()
     main = State()
     feedback = State()
+    language = State()
+    mark = State()
     waiting_for_feedback = State()
     waiting_for_complain = State()
     waiting_for_language = State()

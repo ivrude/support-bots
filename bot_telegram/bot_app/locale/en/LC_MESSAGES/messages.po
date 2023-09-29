@@ -175,3 +175,30 @@ msgstr ""
 msgid "Thank you for your issue.Wait"
 msgstr ""
 
+msgid "The photo has been successfully sent to the server"
+msgstr ""
+
+msgid "An error occurred while sending the photo to the server"
+msgstr ""
+
+msgid "The photo has been successfully sent to the server"
+msgstr ""
+
+msgid "An error occurred while sending the video to the server"
+msgstr ""
+
+msgid "The video has been successfully sent to the server"
+msgstr ""
+
+msgid "Please rate the agent work"
+msgstr ""
+
+msgid "End chating"
+msgstr ""
+
+msgid "End chating"
+msgstr ""
+
+msgid "Thanks for your mark!"
+msgstr ""
+

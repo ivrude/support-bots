@@ -171,3 +171,27 @@ msgstr "Напишите вашу проблему, пожалуйста"
 
 msgid "Thank you for your issue.Wait"
 msgstr "Спасибо за вашу проблему. Подождите."
+
+msgid "The photo has been successfully sent to the server"
+msgstr "Фотография успешно отправлена ​​на сервер."
+
+msgid "An error occurred while sending the photo to the server"
+msgstr "Произошла ошибка при отправке фотографии на сервер."
+
+msgid "The photo has been successfully sent to the server"
+msgstr "Фотография успешно отправлена ​​на сервер."
+
+msgid "An error occurred while sending the video to the server"
+msgstr "Произошла ошибка при отправке видео на сервер."
+
+msgid "The video has been successfully sent to the server"
+msgstr "Видео успешно отправлено на сервер"
+
+msgid "Please rate the agent work"
+msgstr "Оцените, пожалуйста, работу агента"
+
+msgid "End chating"
+msgstr "Конец"
+
+msgid "Спасибо за оценку!"
+msgstr ""

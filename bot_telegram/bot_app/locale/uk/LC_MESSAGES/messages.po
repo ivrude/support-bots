@@ -175,3 +175,28 @@ msgstr "Будь ласка, напишіть свою проблему"
 
 msgid "Thank you for your issue.Wait"
 msgstr "Дякуємо за проблему. Зачекайте"
+
+
+msgid "The photo has been successfully sent to the server"
+msgstr "Фото успішно відправлено на сервер"
+
+msgid "An error occurred while sending the photo to the server"
+msgstr "Під час надсилання фотографії на сервер сталася помилка"
+
+msgid "The photo has been successfully sent to the server"
+msgstr "Фото успішно відправлено на сервер"
+
+msgid "An error occurred while sending the video to the server"
+msgstr "Під час надсилання відео на сервер сталася помилка"
+
+msgid "The video has been successfully sent to the server"
+msgstr "Відео успішно відправлено на сервер"
+
+msgid "Please rate the agent work"
+msgstr "Будь ласка, оцініть роботу агента"
+
+msgid "End chating"
+msgstr "Кінець"
+
+msgid "Thanks for your mark!"
+msgstr "Дякуємо за вашу оцінку!"
