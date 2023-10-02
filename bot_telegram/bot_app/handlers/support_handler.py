@@ -11,6 +11,7 @@ from ..settings.configs import (
     url_new_thread,
     url_send_photo,
     url_send_video,
+    url_get_id,
 )
 from .utils import YourState, _
 
@@ -35,7 +36,7 @@ async def send_message_to_websocket(
 
 @dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
 async def start_command(message: types.Message):
-    user_id = message.from_user.id
+    user = message.from_user.id
     button1 = types.KeyboardButton(
         _("End chating"),
     )
@@ -55,7 +56,16 @@ async def start_command(message: types.Message):
     thread_num = response.json()["data"]["result"]
     print(thread_num)
     data_to_store = {"thread_num": thread_num}
-    await storage.update_data(chat=user_id, user=user_id, data=data_to_store)
+    await storage.update_data(chat=user, user=user, data=data_to_store)
+    param = {
+        "id_u": user
+    }
+    responce = requests.post(url_get_id, params=param, headers=headers)
+    print(responce)
+    user_id = responce.json()["data"]["result"]
+    print(user_id)
+    data_to_storage = {"user_id": user_id}
+    await storage.update_data(chat=user, user=user, data=data_to_storage)
     await message.answer(
         _("Send your messge and we will responce you soon"), reply_markup=keyboard
     )
@@ -66,8 +76,10 @@ async def start_command(message: types.Message):
 async def handle_message(message: types.Message):
     type = "chat_message"
 
-    user_id = message.from_user.id
-    stored_data = await storage.get_data(chat=user_id, user=user_id)
+    user = message.from_user.id
+    stored_data = await storage.get_data(chat=user, user=user)
+    user_id = stored_data.get("user_id")
+    print(user_id)
     thread_num = stored_data.get("thread_num")
     thread = thread_num
     token = TOKEN
@@ -101,8 +113,9 @@ async def handle_photo(message: types.Message):
             _("An error occurred while sending the photo to the server")
         )
     print(photo_url)
-    user_id = message.from_user.id
-    stored_data = await storage.get_data(chat=user_id, user=user_id)
+    user = message.from_user.id
+    stored_data = await storage.get_data(chat=user, user=user)
+    user_id = stored_data.get("user_id")
     thread_num = stored_data.get("thread_num")
     thread = thread_num
     token = TOKEN
@@ -142,8 +155,9 @@ async def handle_video(message: types.Message):
         await message.answer(
             _("An error occurred while sending the video to the server")
         )
-    user_id = message.from_user.id
-    stored_data = await storage.get_data(chat=user_id, user=user_id)
+    user = message.from_user.id
+    stored_data = await storage.get_data(chat=user, user=user)
+    user_id = stored_data.get("user_id")
     thread_num = stored_data.get("thread_num")
     thread = thread_num
     token = TOKEN
