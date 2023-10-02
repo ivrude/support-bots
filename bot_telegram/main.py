@@ -15,7 +15,7 @@ async def set_webhook():
 
 async def on_startup(_):
     await set_webhook()
-    uri = "ws://localhost:8000/ws/chat/test/"
+    uri = "ws://localhost:8888/ws/chat/test/"
     websocket_connection = await websockets.connect(uri)
 
     dp.data["websocket_connection"] = websocket_connection

@@ -1,6 +1,6 @@
 #import os
 
-web_ngrok = "https://b25d-85-114-213-169.ngrok.io"
+web_ngrok = "https://dba6-85-114-213-169.ngrok.io"
 
 TOKEN = "6059087374:AAEg4bLEIJqF-PFkjwfIDeOSbESRrJsvvLs"
 TOKEN_DOMAIN = "72c513f9-d8f7-42ef-8e55-528bf3eef117"
@@ -24,6 +24,8 @@ url_check_email_code = BASE_HOST + "/api/v1/support/check_email_code"
 url_send_photo = BASE_HOST + "/api/v1/support/send_photo"
 url_send_video = BASE_HOST + "/api/v1/support/send_video"
 url_send_raiting = BASE_HOST + "/api/v1/support/send_raiting"
+url_get_id = BASE_HOST + "/api/v1/support/get_id"
+
 
 
 headers = {"Authorization": f"Bearer {TOKEN_DOMAIN}", "Accept": "application/json"}
