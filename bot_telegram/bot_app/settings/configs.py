@@ -29,4 +29,4 @@ url_get_id = BASE_HOST + "/api/v1/support/get_id"
 
 
 
-headers = {"Authorization": f"Bearer {TOKEN_DOMAIN}", "Accept": "application/json"}
+headers = {"DOMAIN-UUID": TOKEN_DOMAIN, "Accept": "application/json"}
