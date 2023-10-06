@@ -1,12 +1,13 @@
+import asyncio
 import json
 
 import requests
 from aiogram import types
 
 
-from ..app import dp, storage
+from ..app import dp, storage, bot
 from ..settings.configs import (
-    TOKEN,
+    TOKEN_DOMAIN,
     headers,
     url_new_thread,
     url_send_photo,
@@ -21,19 +22,32 @@ async def send_message_to_websocket(
 ):
     websocket_connection = dp.data["websocket_connection"]
     data = {
-        "message": message,
-        "user_id": user_id,
-        "thread_id": thread_id,
-        "token": token,
         "type": type,
         "language": language,
+        "message_text": message,
+        "user": user_id,
+        "token": token,
+        "thread_id": thread_id,
         "chat_status": chat_status,
         "files": files,
     }
+    print(data)
     message_json = json.dumps(data)
     await websocket_connection.send(message_json)
 
 
+async def receive_message_from_websocket(websocket):
+    json_data = await websocket.recv()
+    data = json.loads(json_data)
+    print(1)
+    print(data)
+
+    role = data.get('role', '')
+    if role == 'Staff':
+        message = data.get('message', '')
+        return message
+    else:
+        return None
 @dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
 async def start_command(message: types.Message):
     user = message.from_user.id
@@ -50,7 +64,6 @@ async def start_command(message: types.Message):
         "chat_id": message.chat.id,
         "socials": "telegram",
     }
-
     response = requests.post(url_new_thread, json=params, headers=headers)
     print(response.json())
     thread_num = response.json()["data"]["result"]
@@ -70,6 +83,13 @@ async def start_command(message: types.Message):
         _("Send your messge and we will responce you soon"), reply_markup=keyboard
     )
     await YourState.chat.set()
+    while True:
+        try:
+            websocket_message = await receive_message_from_websocket(dp.data["websocket_connection"])
+            await message.answer(websocket_message)
+        except Exception as e:
+            print(f"Error receiving message from websocket: {e}")
+            await asyncio.sleep(1)
 
 
 @dp.message_handler(lambda message: True, state=YourState.chat)
@@ -82,7 +102,7 @@ async def handle_message(message: types.Message):
     print(user_id)
     thread_num = stored_data.get("thread_num")
     thread = thread_num
-    token = TOKEN
+    token = TOKEN_DOMAIN
     files = None
     stored_data = await storage.get_data(
         chat=message.chat.id, user=message.from_user.id
@@ -90,7 +110,6 @@ async def handle_message(message: types.Message):
     language = stored_data.get("language")
     print(language)
     chat_status = "active_chat"
-
     await send_message_to_websocket(
         message.text, user_id, thread, token, type, language, chat_status, files
     )
@@ -118,7 +137,7 @@ async def handle_photo(message: types.Message):
     user_id = stored_data.get("user_id")
     thread_num = stored_data.get("thread_num")
     thread = thread_num
-    token = TOKEN
+    token = TOKEN_DOMAIN
     file_id = response.json()["data"]["result"]
     files = [
         {"id": file_id},
@@ -129,7 +148,10 @@ async def handle_photo(message: types.Message):
     language = stored_data.get("language")
     print(language)
     chat_status = "active_chat"
-    message = message.caption
+    if not message.caption:
+        message = ""
+    else :
+        message = message.caption
 
     await send_message_to_websocket(
         message, user_id, thread, token, type, language, chat_status, files
@@ -160,7 +182,7 @@ async def handle_video(message: types.Message):
     user_id = stored_data.get("user_id")
     thread_num = stored_data.get("thread_num")
     thread = thread_num
-    token = TOKEN
+    token = TOKEN_DOMAIN
     file_id = response.json()["data"]["result"]
     files = [
         {"id": file_id},
@@ -171,7 +193,10 @@ async def handle_video(message: types.Message):
     language = stored_data.get("language")
     print(language)
     chat_status = "active_chat"
-    message = message.caption
+    if not message.caption:
+        message = ""
+    else:
+        message = message.caption
 
     await send_message_to_websocket(
         message, user_id, thread, token, type, language, chat_status, files

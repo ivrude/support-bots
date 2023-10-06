@@ -1,9 +1,9 @@
 #import os
 
-web_ngrok = "https://dba6-85-114-213-169.ngrok.io"
+web_ngrok = "https://26c5-85-114-213-169.ngrok.io"
 
 TOKEN = "6059087374:AAEg4bLEIJqF-PFkjwfIDeOSbESRrJsvvLs"
-TOKEN_DOMAIN = "72c513f9-d8f7-42ef-8e55-528bf3eef117"
+TOKEN_DOMAIN = "3a40d6bc-0650-47b8-b980-0b68eae53f21"
 
 # redis
 REDIS_HOST = "localhost"

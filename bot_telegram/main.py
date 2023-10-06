@@ -5,6 +5,7 @@ from aiohttp import web
 
 from bot_app import TOKEN, app, bot, dp, webhook_path
 from bot_app.settings.configs import web_ngrok
+from bot_telegram.bot_app.settings.configs import TOKEN_DOMAIN
 
 
 async def set_webhook():
@@ -15,7 +16,8 @@ async def set_webhook():
 
 async def on_startup(_):
     await set_webhook()
-    uri = "ws://localhost:8888/ws/chat/test/"
+    token = TOKEN_DOMAIN
+    uri = f"ws://localhost:8888/ws/tg_bot/{token}/?token={token}"
     websocket_connection = await websockets.connect(uri)
 
     dp.data["websocket_connection"] = websocket_connection

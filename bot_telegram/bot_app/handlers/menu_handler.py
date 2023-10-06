@@ -81,7 +81,7 @@ async def handle_mark(message: types.Message):
         row_width=2, resize_keyboard=True, one_time_keyboard=True
     )
     keyboard.add(*buttons)
-    #token = TOKEN
+    #token = TOKEN_DOMAIN
     #thread = stored_data.get("thread_num")
     #language = stored_data.get("language")
     #user_id = message.from_user.id
