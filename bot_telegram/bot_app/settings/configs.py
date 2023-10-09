@@ -1,6 +1,6 @@
 #import os
 
-web_ngrok = "https://26c5-85-114-213-169.ngrok.io"
+web_ngrok = "https://d979-85-114-213-169.ngrok.io"
 
 TOKEN = "6059087374:AAEg4bLEIJqF-PFkjwfIDeOSbESRrJsvvLs"
 TOKEN_DOMAIN = "3a40d6bc-0650-47b8-b980-0b68eae53f21"
@@ -13,7 +13,7 @@ REDIS_PASSWORD = ""
 
 
 # api
-BASE_HOST = "http://localhost:8888"
+BASE_HOST = "http://localhost:8000"
 url_check_number = BASE_HOST + "/api/v1/support/check_number"
 url_check_email = BASE_HOST + "/api/v1/support/check_email"
 url_news_list = BASE_HOST + "/api/v1/support/get_news_list"
@@ -28,4 +28,4 @@ url_get_id = BASE_HOST + "/api/v1/support/get_id"
 
 
 
-headers = {"Authorization": f"Bearer {TOKEN_DOMAIN}", "Accept": "application/json"}
+headers = {"DOMAIN-UUID": TOKEN_DOMAIN, "Accept": "application/json"}
