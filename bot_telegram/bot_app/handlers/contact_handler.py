@@ -2,6 +2,7 @@ import requests
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
+from .menu_handler import handle_settings_ua
 from ..app import dp, storage
 from ..settings.configs import headers, url_check_number
 from .utils import YourState, _
@@ -73,3 +74,4 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
 
         await message.answer(_("Choose above"), reply_markup=keyboard)
         await YourState.main.set()
+        await handle_settings_ua(message)

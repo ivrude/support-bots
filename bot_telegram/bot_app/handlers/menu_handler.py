@@ -35,6 +35,7 @@ async def send_message_to_websocket(
         YourState.settings,
         YourState.menu,
         YourState.chat,
+        YourState.mark,
     ],
 )
 async def handle_settings_ua(message: types.Message):
@@ -92,6 +93,7 @@ async def handle_mark(message: types.Message):
     #await send_message_to_websocket(
     #    message.text, user_id, thread, token, type, language, chat_status
     #)
+    await YourState.mark.set()
 
 def send_agent_rating(thread_num, raiting):
     params = {
@@ -108,7 +110,7 @@ def send_agent_rating(thread_num, raiting):
 
 
 @dp.message_handler(
-    lambda message: message.text in ["1", "2", "3", "4", "5"], state=YourState.chat
+    lambda message: message.text in ["1", "2", "3", "4", "5"], state=YourState.mark
 )
 async def handle_rating(message: types.Message):
     user_id = message.from_user.id

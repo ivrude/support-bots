@@ -16,7 +16,7 @@ from ..settings.configs import (
 )
 from .utils import YourState, _
 
-
+websocket_lock = asyncio.Lock()
 async def send_message_to_websocket(
     message, user_id, thread_id, token, type, language, chat_status, files
 ):
@@ -37,27 +37,32 @@ async def send_message_to_websocket(
 
 
 async def receive_message_from_websocket(websocket):
-    json_data = await websocket.recv()
-    data = json.loads(json_data)
-    print(1)
-    print(data)
+    async with websocket_lock:
+        json_data = await websocket.recv()
+        data = json.loads(json_data)
+        print(1)
+        print(data)
 
-    role = data.get('role', '')
-    if role == 'Staff':
-        message = data.get('message', '')
-        return message
-    else:
-        return None
+        role = data.get('role', '')
+        if role == 'Staff':
+            message = data.get('message', '')
+            return message
+        else:
+            return None
 @dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
 async def start_command(message: types.Message):
     user = message.from_user.id
     button1 = types.KeyboardButton(
         _("End chating"),
     )
+    button2 = types.KeyboardButton(
+        _("Menu"),
+    )
     keyboard = types.ReplyKeyboardMarkup(
         row_width=1, resize_keyboard=True, one_time_keyboard=True
     )
     keyboard.add(button1)
+    keyboard.add(button2)
     params = {
         "name": message.text,
         "type": "issue",
@@ -82,14 +87,17 @@ async def start_command(message: types.Message):
     await message.answer(
         _("Send your messge and we will responce you soon"), reply_markup=keyboard
     )
+
     await YourState.chat.set()
     while True:
         try:
-            websocket_message = await receive_message_from_websocket(dp.data["websocket_connection"])
-            await message.answer(websocket_message)
+            #async with websocket_lock:
+                websocket_message = await receive_message_from_websocket(dp.data["websocket_connection"])
+                await message.answer(websocket_message)
         except Exception as e:
             print(f"Error receiving message from websocket: {e}")
             await asyncio.sleep(1)
+
 
 
 @dp.message_handler(lambda message: True, state=YourState.chat)
@@ -121,7 +129,10 @@ async def handle_photo(message: types.Message):
 
     photo = message.photo[-1]
     photo_url = await photo.get_url()
-    params = {"url": photo_url}
+    user_id = message.from_user.id
+    stored_data = await storage.get_data(chat=user_id, user=user_id)
+    thread_num = stored_data.get("thread_num")
+    params = {"url": photo_url,"user_id": user_id, "thread_num":thread_num}
 
     response = requests.post(url_send_photo, params=params, headers=headers)
 

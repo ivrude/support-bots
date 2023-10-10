@@ -2,6 +2,7 @@ import requests
 from aiogram import types
 from email_validator import EmailNotValidError, validate_email
 
+from .menu_handler import handle_settings_ua
 from ..app import dp, storage
 from ..settings.configs import (
     TOKEN_DOMAIN,
@@ -156,3 +157,4 @@ async def handle_code(message: types.Message):
 
     await message.answer(_("Choose above"), reply_markup=keyboard)
     await YourState.main.set()
+    await handle_settings_ua(message)
