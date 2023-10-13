@@ -20,8 +20,8 @@ async def on_startup(_):
     token = TOKEN_DOMAIN
     uri = f"ws://localhost:8000/ws/tg_bot/{token}/?token={token}"
     websocket_connection = await websockets.connect(uri)
-
     dp.data["websocket_connection"] = websocket_connection
+
 
 
 #async def handle_webhook(request):

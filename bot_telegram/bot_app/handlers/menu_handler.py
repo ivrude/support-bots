@@ -27,16 +27,7 @@ async def send_message_to_websocket(
 
 @dp.message_handler(
     lambda message: message.text == _("Menu"),
-    state=[
-        YourState.waiting_for_wish,
-        YourState.feedback,
-        YourState.main,
-        YourState.offers,
-        YourState.settings,
-        YourState.menu,
-        YourState.chat,
-        YourState.mark,
-    ],
+    state="*"
 )
 async def handle_settings_ua(message: types.Message):
     buttons = [

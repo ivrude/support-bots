@@ -1,16 +1,15 @@
-import os
+#import os
 
-web_ngrok = os.environ.get("NGROK_URL")
+web_ngrok = "https://d979-85-114-213-169.ngrok.io"
 
-TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-TOKEN_DOMAIN = os.environ.get("DOMAIN_TOKEN")
+TOKEN = "6059087374:AAEg4bLEIJqF-PFkjwfIDeOSbESRrJsvvLs"
+TOKEN_DOMAIN = "3a40d6bc-0650-47b8-b980-0b68eae53f21"
 
 # redis
-REDIS_HOST = "redis"
+REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_DB = 0
 REDIS_PASSWORD = ""
-
 
 
 # api
