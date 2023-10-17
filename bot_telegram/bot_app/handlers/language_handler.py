@@ -20,9 +20,9 @@ async def language(callback_query: types.CallbackQuery):
     )
 
     button1 = types.KeyboardButton(
-        _("Phone number", locale=selected_language), request_contact=True
+        _("Phone number📞", locale=selected_language), request_contact=True
     )
-    button2 = types.KeyboardButton(_("Email", locale=selected_language))
+    button2 = types.KeyboardButton(_("Email✉️", locale=selected_language))
     button3 = types.KeyboardButton(_("Back", locale=selected_language))
     keyboard = types.ReplyKeyboardMarkup(
         row_width=1, resize_keyboard=True, one_time_keyboard=True

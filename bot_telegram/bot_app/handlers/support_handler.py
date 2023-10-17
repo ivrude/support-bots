@@ -75,13 +75,13 @@ async def receive_message_from_websocket(websocket):
 
 
 
-@dp.message_handler(lambda message: message.text == _("Support"), state=YourState.main)
+@dp.message_handler(lambda message: message.text == _("Support🙋"), state=YourState.main)
 async def start_command(message: types.Message, state: FSMContext):
     global is_handling_message
     user = message.from_user.id
     print(f'user1{user}')
     button1 = types.KeyboardButton(
-        _("End chating"),
+        _("End chating🙅"),
     )
     button2 = types.KeyboardButton(
         _("Menu"),
@@ -118,9 +118,10 @@ async def start_command(message: types.Message, state: FSMContext):
     await message.answer(
         _("Send your messge and we will responce you soon"), reply_markup=keyboard
     )
-    message_temp = "conect"
+    stored_data = await storage.get_data(chat=user, user=user)
+    message_temp = "👋"
     token = TOKEN_DOMAIN
-    language = "en"
+    language = stored_data.get("language")
     type = "chat_message"
     files = None
     chat_status = "active_chat"
@@ -198,6 +199,7 @@ async def handle_photo(message: types.Message):
     thread_num = stored_data.get("thread_num")
     thread = thread_num
     token = TOKEN_DOMAIN
+    tg_id="Bot"
     file_id = response.json()["data"]["result"]
     files = [
         {"id": file_id},
@@ -214,7 +216,7 @@ async def handle_photo(message: types.Message):
         message = message.caption
 
     await send_message_to_websocket(
-        message, user_id, thread, token, type, language, chat_status, files
+        message, user_id, thread, token, type, language, chat_status, files,tg_id
     )
 
     # Тут ви можете додатково обробляти фото або виконувати необхідні дії
@@ -255,6 +257,7 @@ async def handle_video(message: types.Message):
     )
     language = stored_data.get("language")
     print(language)
+    tg_id="Bot"
     chat_status = "active_chat"
     if not message.caption:
         message = ""
@@ -262,5 +265,5 @@ async def handle_video(message: types.Message):
         message = message.caption
 
     await send_message_to_websocket(
-        message, user_id, thread, token, type, language, chat_status, files
+        message, user_id, thread, token, type, language, chat_status, files, tg_id
     )

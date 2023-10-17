@@ -24,12 +24,12 @@ msgid "Choosen language eanglish"
 msgstr "Вибрана мова українська"
 
 #: main.py:48
-msgid "Phone number"
-msgstr "Номер телефону"
+msgid "Phone number📞"
+msgstr "Номер телефону📞"
 
 #: main.py:57
-msgid "Email"
-msgstr "Імейл"
+msgid "Email✉️"
+msgstr "Імейл✉️"
 
 #: main.py:66
 msgid "Back"
@@ -47,35 +47,35 @@ msgstr "Вибрати пункт меню"
 msgid "Menu"
 msgstr "Меню"
 
-msgid "News"
-msgstr "Новини"
+msgid "News📜"
+msgstr "Новини📜"
 
-msgid "Settings"
-msgstr "Налаштування"
+msgid "Settings⚙"
+msgstr "Налаштування⚙"
 
-msgid "Offers"
-msgstr "Пропозиції"
+msgid "Offers🖊"
+msgstr "Пропозиції🖊"
 
-msgid "Help"
-msgstr "Допомога"
+msgid "Help🧩"
+msgstr "Допомога🧩"
 
-msgid "Support"
-msgstr "Техпідтримка"
+msgid "Support🙋"
+msgstr "Техпідтримка🙋"
 
 msgid "Profile"
-msgstr "Профіль"
+msgstr "Профіль🗿"
 
 msgid "Notifications"
-msgstr "Сповіщення"
+msgstr "Сповіщення🔔"
 
 msgid "Choose above"
-msgstr "Оберіть нижче"
+msgstr "Оберіть нижче↘️"
 
 msgid "Get Notifications"
-msgstr "Отримувати сповіщення"
+msgstr "Отримувати сповіщення🔔"
 
 msgid "Dont get Notifications"
-msgstr "Не отримувати сповіщення"
+msgstr "Не отримувати сповіщення🔕"
 
 msgid "Wish"
 msgstr "Побажання"
@@ -108,7 +108,7 @@ msgid "You are trying to use not your number"
 msgstr "Ви намагаєтесь ввести не ваш номер"
 
 msgid "Language"
-msgstr "Мова"
+msgstr "Мова🌍"
 
 msgid "This number is not sign on our product"
 msgstr "Цього номера немає у базі.Переконайтесь , що ви входите з потрібного акаунту"
@@ -168,7 +168,7 @@ msgid "Thank you"
 msgstr "Дякую"
 
 msgid "Send your messge and we will responce you soon"
-msgstr "Надішліть своє повідомлення і ми скора вам відповімо"
+msgstr "Почекайте будь ласка поки агент приєднаєтся👐"
 
 msgid "Write your issue please"
 msgstr "Будь ласка, напишіть свою проблему"
@@ -195,8 +195,8 @@ msgstr "Відео успішно відправлено на сервер"
 msgid "Please rate the agent work"
 msgstr "Будь ласка, оцініть роботу агента"
 
-msgid "End chating"
-msgstr "Кінець"
+msgid "End chating🙅"
+msgstr "Кінець переписки🙅"
 
 msgid "Thanks for your mark!"
 msgstr "Дякуємо за вашу оцінку!"

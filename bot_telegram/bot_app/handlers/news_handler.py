@@ -7,7 +7,7 @@ from ..settings.configs import headers, url_get_news, url_news_list
 from .utils import YourState, _
 
 
-@dp.message_handler(lambda message: message.text == _("News"), state=YourState.main)
+@dp.message_handler(lambda message: message.text == _("News📜"), state=YourState.main)
 async def handle_news(message: types.Message, state: FSMContext):
     await message.answer(_("This is list of our news"))
 

@@ -27,31 +27,47 @@ async def send_message_to_websocket(
 
 @dp.message_handler(
     lambda message: message.text == _("Menu"),
-    state="*"
+    state=[
+        YourState.waiting_for_feedback,
+        YourState.main,
+        YourState.offers,
+        YourState.settings,
+        YourState.menu,
+        YourState.waiting_for_language,
+        YourState.chat,
+        YourState.mark,
+        YourState.waiting_for_issue,
+        YourState.waiting_for_complain,
+        YourState.waiting_for_wish,
+        YourState.feedback,
+        YourState.language,
+    ],
+
 )
 async def handle_settings_ua(message: types.Message):
-    buttons = [
-        types.KeyboardButton(text=_("News")),
-        types.KeyboardButton(text=_("Settings")),
-        types.KeyboardButton(text=_("Offers")),
-        types.KeyboardButton(text=_("Help")),
-        types.KeyboardButton(text=_("Support")),
-    ]
     stored_data = await storage.get_data(
         chat=message.chat.id, user=message.from_user.id
     )
+    selected_language = stored_data["language"]
+    buttons = [
+        types.KeyboardButton(text=_("News📜",locale=selected_language)),
+        types.KeyboardButton(text=_("Settings⚙",locale=selected_language)),
+        types.KeyboardButton(text=_("Offers🖊",locale=selected_language)),
+        types.KeyboardButton(text=_("Help🧩",locale=selected_language)),
+        types.KeyboardButton(text=_("Support🙋",locale=selected_language)),
+    ]
     print(stored_data)
     keyboard = types.ReplyKeyboardMarkup(
         row_width=3, resize_keyboard=True, one_time_keyboard=True
     )
     keyboard.add(*buttons)
 
-    await message.answer(_("Choose menu punkt"), reply_markup=keyboard)
+    await message.answer(_("Choose menu punkt",locale=selected_language), reply_markup=keyboard)
     await YourState.main.set()
 
 
 @dp.message_handler(
-    lambda message: message.text == _("End chating"),
+    lambda message: message.text == _("End chating🙅"),
     state=[
         YourState.chat,
     ],

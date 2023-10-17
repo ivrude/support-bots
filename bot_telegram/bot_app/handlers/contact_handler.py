@@ -63,15 +63,5 @@ async def handle_contact_authorization(message: types.Message, state: FSMContext
         )
         print(selected_language)
 
-        buttons = [
-            types.KeyboardButton(text=_("Menu")),
-        ]
-
-        keyboard = types.ReplyKeyboardMarkup(
-            row_width=2, resize_keyboard=True, one_time_keyboard=True
-        )
-        keyboard.add(*buttons)
-
-        await message.answer(_("Choose above"), reply_markup=keyboard)
         await YourState.main.set()
         await handle_settings_ua(message)

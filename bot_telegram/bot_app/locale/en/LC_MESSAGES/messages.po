@@ -23,11 +23,11 @@ msgid "Choosen language eanglish"
 msgstr ""
 
 #: main.py:48
-msgid "Phone number"
+msgid "Phone number📞"
 msgstr ""
 
 #: main.py:57
-msgid "Email"
+msgid "Email✉️"
 msgstr ""
 
 #: main.py:66
@@ -46,35 +46,35 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-msgid "News"
+msgid "News📜"
 msgstr ""
 
-msgid "Settings"
+msgid "Settings⚙"
 msgstr ""
 
-msgid "Offers"
+msgid "Offers🖊"
 msgstr ""
 
-msgid "Help"
+msgid "Help🧩"
 msgstr ""
 
-msgid "Support"
+msgid "Support🙋"
 msgstr ""
 
 msgid "Profile"
-msgstr ""
+msgstr "Profile🗿"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Notifications🔔"
 
 msgid "Choose above"
-msgstr ""
+msgstr "Choose above↘️"
 
 msgid "Get Notifications"
-msgstr ""
+msgstr "Get Notifications🔔"
 
 msgid "Dont get Notifications"
-msgstr ""
+msgstr "Dont get Notifications🔕"
 
 msgid "Wish"
 msgstr ""
@@ -107,7 +107,7 @@ msgid "You are trying to use not your number"
 msgstr ""
 
 msgid "Language"
-msgstr ""
+msgstr "Language🌍"
 
 msgid "This number is not sign on our product"
 msgstr ""
@@ -167,7 +167,7 @@ msgid "Thank you"
 msgstr ""
 
 msgid "Send your messge and we will responce you soon"
-msgstr ""
+msgstr "Wait please while agent conect to you👐"
 
 msgid "Write your issue please"
 msgstr ""
@@ -193,11 +193,9 @@ msgstr ""
 msgid "Please rate the agent work"
 msgstr ""
 
-msgid "End chating"
+msgid "End chating🙅"
 msgstr ""
 
-msgid "End chating"
-msgstr ""
 
 msgid "Thanks for your mark!"
 msgstr ""

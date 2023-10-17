@@ -2,12 +2,13 @@ import requests
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
+from .menu_handler import handle_settings_ua
 from ..app import dp
 from ..settings.configs import headers, url_new_thread
 from .utils import YourState, _
 
 
-@dp.message_handler(lambda message: message.text == _("Offers"), state=YourState.main)
+@dp.message_handler(lambda message: message.text == _("Offers🖊"), state=YourState.main)
 async def handle_offers(message: types.Message, state: FSMContext):
     button1 = types.KeyboardButton(
         _("Wish"),
@@ -38,14 +39,6 @@ async def handle_wish(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_wish)
 async def handle_suggestion(message: types.Message):
-    button1 = types.KeyboardButton(
-        _("Menu"),
-    )
-    keyboard = types.ReplyKeyboardMarkup(
-        row_width=1, resize_keyboard=True, one_time_keyboard=True
-    )
-    keyboard.add(button1)
-
     params = {
         "name": message.text,
         "type": "suggestions",
@@ -57,9 +50,9 @@ async def handle_suggestion(message: types.Message):
     print(response.status_code)
     print(response.text)
 
-    await message.answer(_("Thank you"), reply_markup=keyboard)
+    await message.answer(_("Thank you"),)
     await YourState.main.set()
-
+    await handle_settings_ua(message)
 
 @dp.message_handler(
     lambda message: message.text == _("Complaint"), state=YourState.feedback
@@ -73,13 +66,6 @@ async def handle_complaint(message: types.Message, state: FSMContext):  # noqa
 
 @dp.message_handler(lambda message: message.text, state=YourState.waiting_for_complain)
 async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
-    button1 = types.KeyboardButton(
-        _("Menu"),
-    )
-    keyboard = types.ReplyKeyboardMarkup(
-        row_width=1, resize_keyboard=True, one_time_keyboard=True
-    )
-    keyboard.add(button1)
     params = {
         "name": message.text,
         "type": "feedback",
@@ -90,5 +76,6 @@ async def handle_feedback(message: types.Message, state: FSMContext):  # noqa
     response = requests.post(url_new_thread, json=params, headers=headers)
     print(response.status_code)
     print(response.text)
-    await message.answer(_("Thank you for your complaint"), reply_markup=keyboard)
+    await message.answer(_("Thank you for your complaint"),)
     await YourState.main.set()
+    await handle_settings_ua(message)

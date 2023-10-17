@@ -20,12 +20,12 @@ msgid "Choosen language eanglish"
 msgstr "Выбран руский язык"
 
 #: main.py:48
-msgid "Phone number"
-msgstr "Номер телефона"
+msgid "Phone number📞"
+msgstr "Номер телефона📞"
 
 #: main.py:57
-msgid "Email"
-msgstr "Имэйл"
+msgid "Email✉️"
+msgstr "Имэйл✉️"
 
 #: main.py:66
 msgid "Back"
@@ -43,35 +43,35 @@ msgstr "Выберите пункт меню"
 msgid "Menu"
 msgstr "Меню"
 
-msgid "News"
-msgstr "Новости"
+msgid "News📜"
+msgstr "Новости📜"
 
-msgid "Settings"
-msgstr "Настройки"
+msgid "Settings⚙"
+msgstr "Настройки⚙"
 
-msgid "Offers"
-msgstr "Предложения"
+msgid "Offers🖊"
+msgstr "Предложения🖊"
 
-msgid "Help"
-msgstr "Помощь"
+msgid "Help🧩"
+msgstr "Помощь🧩"
 
-msgid "Support"
-msgstr "Поддержка"
+msgid "Support🙋"
+msgstr "Поддержка🙋"
 
 msgid "Profile"
-msgstr "Профиль"
+msgstr "Профиль🗿"
 
 msgid "Notifications"
-msgstr "Уведомления"
+msgstr "Уведомления🔔"
 
 msgid "Choose above"
-msgstr "Выберите ниже"
+msgstr "Выберите ниже↘️"
 
 msgid "Get Notifications"
-msgstr "Получать уведомления"
+msgstr "Получать уведомления🔔"
 
 msgid "Dont get Notifications"
-msgstr "Не получать уведомления"
+msgstr "Не получать уведомления🔕"
 
 msgid "Wish"
 msgstr "Пожелание"
@@ -104,7 +104,7 @@ msgid "You are trying to use not your number"
 msgstr "Вы пытаетесь использовать не свой номер"
 
 msgid "Language"
-msgstr "Язык"
+msgstr "Язык🌍"
 
 msgid "This number is not sign on our product"
 msgstr "Этот номер не указан на нашем продукте"
@@ -164,7 +164,7 @@ msgid "Thank you"
 msgstr "Спасибо"
 
 msgid "Send your messge and we will responce you soon"
-msgstr "Отпрате ваше сообщение и мы скоро вам ответим"
+msgstr "Дождитесь пока агент присоеденится к вам👐"
 
 msgid "Write your issue please"
 msgstr "Напишите вашу проблему, пожалуйста"
@@ -190,8 +190,8 @@ msgstr "Видео успешно отправлено на сервер"
 msgid "Please rate the agent work"
 msgstr "Оцените, пожалуйста, работу агента"
 
-msgid "End chating"
-msgstr "Конец"
+msgid "End chating🙅"
+msgstr "Конец🙅"
 
-msgid "Спасибо за оценку!"
-msgstr ""
+msgid "Thanks for your mark!"
+msgstr "Спасибо за оценку!"
